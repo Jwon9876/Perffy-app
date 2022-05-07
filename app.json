@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "Perffy-app",
+    "slug": "Perffy-app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "Perffy-app"
+}
