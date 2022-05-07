@@ -1,21 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useState} from 'react';
+import { ScrollView, Text, TextInput, Button } from 'react-native';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+import firestore from '@react-native-firebase/firestore';
+
+
+function App(){
+    const [ todo, setTodo ] = useState('');
+    const ref = firestore().collection('todos');
+
+    async function addTodo() {
+      await ref.add({
+        title: "789456211651",
+        complete: false,
+      });
+      setTodo('');
+      await ref.doc.add("4565789")
+    }
+
+    return (
+      <>
+        <ScrollView style={{flex: 1}}>
+          <Text>List of TODOs!</Text>
+        </ScrollView>
+        <TextInput label={'New Todo'} value={todo} onChangeText={setTodo} />
+        <Button onPress={() => {addTodo()}} title = {'456456'}> 
+
+          </Button>
+      </>
+    );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
