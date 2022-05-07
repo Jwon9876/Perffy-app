@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>956427024713-62fm59nl7hv45c7en4eorcsgqj74tm2b.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.956427024713-62fm59nl7hv45c7en4eorcsgqj74tm2b</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC1uoGPZk0epzT1Hq3ymYNaXuYlFAU2308</string>
+	<key>GCM_SENDER_ID</key>
+	<string>956427024713</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.name.Perffyapp</string>
+	<key>PROJECT_ID</key>
+	<string>perffy-c792a</string>
+	<key>STORAGE_BUCKET</key>
+	<string>perffy-c792a.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:956427024713:ios:ce680f375488897e8e0298</string>
+</dict>
+</plist>
