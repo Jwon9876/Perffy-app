@@ -20,7 +20,7 @@ function CreateReview() {
     const [text, setText] = useState(``);
 
     async function registerReview(){
-        await firestore().collection('todos')
+        await firestore().collection('Reviews')
         .doc('테스트')
         .set({
             tags: selectedTagList,
