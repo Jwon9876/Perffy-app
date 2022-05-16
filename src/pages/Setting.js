@@ -18,5 +18,8 @@ const SafeAreaView = styled.SafeAreaView`
     flex: 1;
 `;
 
+const ProfileView = styled.TouchableOpacity`
+`;
+
 
 export default Settings; 
