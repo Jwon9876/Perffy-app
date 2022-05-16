@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView, Text } from 'react-native';
+import { ScrollView, Text, Image } from 'react-native';
 import styled from 'styled-components';
 
 function Setting({ navigation }) {
@@ -8,10 +8,9 @@ function Setting({ navigation }) {
             <ScrollView>
                 <ProfileView>
                     <Profile>
-                        <ProfilePic>
-                            <ProfilePicEdit>
-
-                            </ProfilePicEdit>
+                        <ProfilePic onPress={() => console.log("Picture")}>
+                            {/* TODO: Image License Checking */}
+                            <Image style={{width:120, height:120, borderRadius: 75}} source={require('/Users/juwon/Documents/GitHub/Perffy-app/images/ProfileDafault.jpeg')}/>
                         </ProfilePic>
                     </Profile>
                 </ProfileView>
@@ -32,7 +31,7 @@ const ProfileView = styled.View`
 const Profile = styled.TouchableOpacity`
     width: 100%;
     height: 150px;
-    border-radius: 5px;
+    border-radius: 15px;
     border: 1px solid;
     justify-content: center;
 `;
@@ -44,6 +43,9 @@ const ProfilePic = styled.TouchableOpacity`
     border-radius:75px;
     border: 1px solid;
     margin-left: 10px;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
 `;
 
 const ProfilePicEdit = styled.View`
