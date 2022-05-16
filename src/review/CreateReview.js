@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Alert, Dimensions, Pressable } from 'react-native';
 import { Image } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
+import { NavigationContainer } from '@react-navigation/native';
 
 // TODO: 전체 리뷰 목록 -> Flat List 적용
 
@@ -62,7 +63,7 @@ function CreateReview() {
                     {/* <Image style={{width:'40%', height:'60%'}} source={require('/Users/juwon/Documents/GitHub/Perffy/images/deep.jpeg')}/> */}
                 </ProductView>
 
-                <Text>
+                <Text style={{marginLeft: 5}}>
                     추천태그
                 </Text>
 
@@ -122,7 +123,7 @@ function CreateReview() {
                 </PostView>
 
                 <BottomButtonView>
-                    <CancelButton>
+                    <CancelButton onPress={() => navigation.navigate.goBack()}>
                         <Text style={{fontSize: 25}}>
                             취소
                         </Text>
@@ -211,7 +212,7 @@ const PostInput = styled.TextInput`
 
 const RegisterButton = styled.TouchableOpacity`
     width: 50%;
-    height: 70px;
+    height: 50px;
     border: 1px solid;
     justify-content: center;
     align-items: center;
@@ -219,7 +220,7 @@ const RegisterButton = styled.TouchableOpacity`
 
 const CancelButton = styled.TouchableOpacity`
     width: 50%;
-    height: 70px;
+    height: 50px;
     border: 1px solid;
     justify-content: center;
     align-items: center;
