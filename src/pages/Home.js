@@ -11,7 +11,7 @@ function HomeScreen({navigation}) {
             <SafeAreaView>
                 <ScrollView>
                     <CreateReviewBtn
-                        onPress={() => console.log('createReview')}
+                        onPress={() => navigation.navigate('CreateReview')}
                     >
                         <Text
                             style={{color: 'white', fontSize: 15}}

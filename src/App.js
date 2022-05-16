@@ -8,6 +8,11 @@ import HomeScreen from './pages/Home';
 import Search from './pages/Search';
 import Setting from './pages/Setting'
 
+import Review from './review/Review';
+import ReviewDetail from './review/ReviewDetail';
+import CreateReview from './review/CreateReview';
+
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -81,11 +86,11 @@ export default function App() {
         // }}
       >
         <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
-        {/* <Stack.Screen name="Profile" component={Profile} />
-          <Stack.Screen name="Settings" component={Settings} /> */}
-        {/* <Stack.Screen name="Review" component={Review} options={{title:"리뷰", headerShown: true}}/>
+        {/* <Stack.Screen name="Profile" component={Profile} /> */}
+        <Stack.Screen name="Setting" component={Setting} />
+        <Stack.Screen name="Review" component={Review} options={{title:"리뷰", headerShown: true}}/>
         <Stack.Screen name="ReviewDetail" component={ReviewDetail} options={{title:"리뷰", headerShown: true}}/>
-        <Stack.Screen name="CreateReview" component={CreateReview} options={{headerShown: true}}/> */}
+        <Stack.Screen name="CreateReview" component={CreateReview} options={{headerShown: true}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
