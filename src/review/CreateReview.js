@@ -10,17 +10,7 @@ const screenHeight = Dimensions.get('window').height;
 
 function CreateReview() {
 
-    const ref = firestore().collection('todos');
-
-    async function addTodo() {
-      await ref.add({
-        tags: selectedTagList,
-        dateTime: new Date(),
-        // TODO: User ID -> Login 구현
-        user: "CHOI",
-        text: text
-      });
-    }
+    const ref = firestore();
 
     const tagInputRef = createRef(null);
     const [tag, setTag] = useState("");
@@ -28,6 +18,21 @@ function CreateReview() {
     const [recommendTagList, setRecommendTagList] = useState(['지속력', '봄', '여름', '가을', '겨울', '분위기', '상쾌한', '정장']);
     const [tagList, setTagList] = useState(['지속력', '봄', '여름', '가을', '겨울', '분위기', '상쾌한', '정장']);
     const [text, setText] = useState(``);
+
+    async function registerReview(){
+        await firestore().collection('Reviews')
+        .doc('테스트')
+        .set({
+            tags: selectedTagList,
+            dateTime: new Date(),
+            // TODO: User ID -> Login 구현
+            user: "CHOI",
+            text: text
+        })
+        .then(() => {
+            console.log('Review registered!');
+        });
+    }
 
     function insertTag(tag){
         if(selectedTagList.some((v) => v == tag)){
@@ -43,11 +48,9 @@ function CreateReview() {
     }
     
     return (
-        <SafeAreaView style={{ Height: "auto", maxHeight: screenHeight}}>
             <ScrollView>
-                <Pressable>
                 <ProductSearch
-                    onPress={() => addTodo()}
+                    onPress={() => console.log("456as")}
                 >
                     <Text style={{color: 'white'}}>
                         제품 검색
@@ -63,7 +66,6 @@ function CreateReview() {
                     추천태그
                 </Text>
 
-{/*
                 <TagView>
                     <ScrollView horizontal={true}>
                     {
@@ -79,11 +81,25 @@ function CreateReview() {
                     }
                     </ScrollView>
                 </TagView>
-/*}
                 
-
-                {/* TODO: TagView 내 컴포넌트 재구성 */}
-                <TagInput
+                {/* 선택된 태그 */}
+                <TagView>
+                    <ScrollView horizontal={true}>
+                        {
+                            selectedTagList.map((v) =>
+                                <Tag key={v} onPress={() => removeTag(v)}>
+                                    <Text>
+                                        {v}
+                                    </Text>
+                                </Tag>
+                            )
+                        }
+                    </ScrollView>
+                </TagView>
+                
+                <TagInputView>
+                    {/* TODO: TagView 내 컴포넌트 재구성 */}
+                    <TagInput
                         placeholder="태그를 입력해주세요."
                         onChangeText={(tag) => setTag(tag)}
                         onSubmitEditing={() => {
@@ -94,19 +110,7 @@ function CreateReview() {
                         ref={tagInputRef}
                     >                    
                     </TagInput>
-
-                {/* 선택된 태그 */}
-                <TagView>
-                    {
-                        selectedTagList.map((v) =>
-                            <Tag key={v} onPress={() => removeTag(v)}>
-                                <Text>
-                                    {v}
-                                </Text>
-                            </Tag>
-                        )
-                    }
-                </TagView>
+                </TagInputView>
 
                 <PostView>
                     <PostInput
@@ -117,12 +121,19 @@ function CreateReview() {
                     </PostInput>
                 </PostView>
 
-                <CancelButton></CancelButton>
-                <RegisterButton></RegisterButton>
-                </Pressable>
-                
+                <BottomButtonView>
+                    <CancelButton>
+                        <Text style={{fontSize: 25}}>
+                            취소
+                        </Text>
+                    </CancelButton>   
+                    <RegisterButton onPress={() => registerReview()}>
+                        <Text style={{fontSize: 25}}>
+                            등록
+                        </Text>
+                    </RegisterButton>
+                </BottomButtonView>
             </ScrollView>
-        </SafeAreaView>
     )
 }
 
@@ -158,6 +169,11 @@ const TagView = styled.View`
     flex-wrap: wrap;
     padding: 5px;
     overflow: scroll;
+    height: 40px;
+`;
+
+const TagInputView = styled.View`
+    padding: 10px 10px;
 `;
 
 const HorizontalScrollView = styled.ScrollView`
@@ -167,17 +183,18 @@ const HorizontalScrollView = styled.ScrollView`
 const TagInput = styled.TextInput`
     height: 40px;
     width: 100%;
-    margin-bottom: 10px;
-    background-color: yellow;
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 5px 5px;
 `;
 
 const Tag = styled.TouchableOpacity`
+    border: 1px solid;
     border-radius:5px;
-    background-color: red;
     padding: 2px;
     margin: 2px;
     align-items: center;
-    width: 50px;
+    width: auto;
 `;
 
 const PostView = styled.View`
@@ -188,18 +205,30 @@ const PostInput = styled.TextInput`
     height: 300px;
     width: 100%;
     padding: 5px;
-    background-color: yellow;
+    border-radius: 5px;
+    border: 1px solid;
 `;
 
 const RegisterButton = styled.TouchableOpacity`
     width: 50%;
-    height: 150px;
-    background-color: blue;
+    height: 70px;
+    border: 1px solid;
+    justify-content: center;
+    align-items: center;
 `;
 
 const CancelButton = styled.TouchableOpacity`
     width: 50%;
     height: 70px;
+    border: 1px solid;
+    justify-content: center;
+    align-items: center;
+`;
+
+const BottomButtonView = styled.View`
+    flex-direction: row;
+    height: 150px;
+    margin: 50px 0px 250px 0px ;
 `;
 
 
