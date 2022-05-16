@@ -3,101 +3,101 @@ import styled from 'styled-components';
 import { ScrollView } from 'react-native';
 import { Image } from 'react-native';
 
-function HomeScreen({navigation}) {
+function HomeScreen({ navigation }) {
 
     const categoryArray = ['지속력', '봄', '여름', '가을', '겨울', '분위기', '상쾌한'];
 
     return (
-            <SafeAreaView>
-                <ScrollView>
-                    <CreateReviewBtn
-                        onPress={() => navigation.navigate('CreateReview')}
+        <SafeAreaView>
+            <ScrollView>
+                <CreateReviewBtn
+                    onPress={() => navigation.navigate('CreateReview')}
+                >
+                    <Text
+                        style={{ color: 'white', fontSize: 15 }}
                     >
-                        <Text
-                            style={{color: 'white', fontSize: 15}}
-                        >
-                            당신의 향기를 공유해주세요 !
-                        </Text>
-                    </CreateReviewBtn>
+                        당신의 향기를 공유해주세요 !
+                    </Text>
+                </CreateReviewBtn>
 
-                    <TopView>
-                        <Category>
+                <TopView>
+                    <Category>
+                        <PostText>
+                            추천 향수 아이콘 추가
+                        </PostText>
+                    </Category>
+                    <Category>
+                        <PostText>
+                            Review 아이콘 추가
+                        </PostText>
+                    </Category>
+
+                    <Category>
+                        <PostText>
+                            ??? 아이콘 추가
+                        </PostText>
+                    </Category>
+                </TopView>
+
+                <PostBox>
+                    <PostBoxTopView>
+
+                        <HidePostBtn>
+
+                        </HidePostBtn>
+
+                        <Title>
+                            최근 리뷰
+                        </Title>
+
+                        <MorePostBtn>
                             <PostText>
-                                추천 향수 아이콘 추가
+                                더보기
                             </PostText>
-                        </Category>
-                        <Category>
-                            <PostText>
-                                Review 아이콘 추가
-                            </PostText>
-                        </Category>
+                        </MorePostBtn>
 
-                        <Category>
-                            <PostText>
-                                ??? 아이콘 추가
-                            </PostText>
-                        </Category>
-                    </TopView>
+                    </PostBoxTopView>
 
-                    <PostBox>
-                        <PostBoxTopView>
-
-                            <HidePostBtn>
-
-                            </HidePostBtn>
-
-                            <Title>
-                                최근 리뷰
-                            </Title>
-
-                            <MorePostBtn>
-                                <PostText>
-                                    더보기
-                                </PostText>
-                            </MorePostBtn>
-                            
-                        </PostBoxTopView>
-                        
-                        <Post
-                            onPress={() => console.log('review')}
-                        >
-                            {/* 
+                    <Post
+                        onPress={() => console.log('review')}
+                    >
+                        {/* 
                                 TODO: Image File 통일
                              */}
-                            {/* <Image style={{width:'30%', height:'80%'}} source={require('/Users/juwon/Documents/GitHub/Perffy/images/deep.jpeg')}/> */}
-                            <PostView>
-                                <PostProductTitle>
-                                    <Text style={{color: 'black', fontSize: 17}}>
-                                        딥디크 오데썽 오 드 뚜왈렛 50ml
-                                    </Text>
-                                </PostProductTitle>
-                                <PostTagView>
-                                    {
-                                        categoryArray.map((v) => 
-                                            <Tag key={v}>
-                                                <Text
-                                                    style={{fontSize: 15}}
-                                                >
-                                                    {v}
-                                                </Text>
-                                            </Tag>
-                                        )
-                                    }
-                                </PostTagView>
-                            </PostView>
-                        </Post>
-                        <Post>
-                            {/* <Image style={{width:'30%', height:'80%'}} source={require('/Users/juwon/Documents/GitHub/Perffy/images/jo.jpeg')}/> */}
-                        </Post>
-                        <Post
-                            // TODO: Scroll Size Checking
-                            style={{marginBottom: 100}}
-                        >
-                            {/* <Image style={{width:'30%', height:'80%'}} source={require('/Users/juwon/Documents/GitHub/Perffy/images/jo.jpeg')}/> */}
-                        </Post>
-                    </PostBox> 
-                </ScrollView>
-            </SafeAreaView>
+                        {/* <Image style={{width:'30%', height:'80%'}} source={require('/Users/juwon/Documents/GitHub/Perffy/images/deep.jpeg')}/> */}
+                        <PostView>
+                            <PostProductTitle>
+                                <Text style={{ color: 'black', fontSize: 17 }}>
+                                    딥디크 오데썽 오 드 뚜왈렛 50ml
+                                </Text>
+                            </PostProductTitle>
+                            <PostTagView>
+                                {
+                                    categoryArray.map((v) =>
+                                        <Tag key={v}>
+                                            <Text
+                                                style={{ fontSize: 15 }}
+                                            >
+                                                {v}
+                                            </Text>
+                                        </Tag>
+                                    )
+                                }
+                            </PostTagView>
+                        </PostView>
+                    </Post>
+                    <Post>
+                        {/* <Image style={{width:'30%', height:'80%'}} source={require('/Users/juwon/Documents/GitHub/Perffy/images/jo.jpeg')}/> */}
+                    </Post>
+                    <Post
+                        // TODO: Scroll Size Checking
+                        style={{ marginBottom: 100 }}
+                    >
+                        {/* <Image style={{width:'30%', height:'80%'}} source={require('/Users/juwon/Documents/GitHub/Perffy/images/jo.jpeg')}/> */}
+                    </Post>
+                </PostBox>
+            </ScrollView>
+        </SafeAreaView>
     )
 }
 
@@ -145,11 +145,11 @@ const Title = styled.Text`
     color: black;
 `;
 
-const HidePostBtn  = styled.View`
+const HidePostBtn = styled.View`
     width: 10%;
 `;
 
-const MorePostBtn  = styled.TouchableOpacity`
+const MorePostBtn = styled.TouchableOpacity`
     width: 10%;
     justify-content: flex-end;
 `;
