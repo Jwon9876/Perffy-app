@@ -10,7 +10,7 @@ function Setting({ navigation }) {
                     <Profile>
                         <ProfilePic onPress={() => console.log("Picture")}>
                             {/* TODO: Image License Checking */}
-                            <Image style={{width:120, height:120, borderRadius: 75}} source={require('/Users/juwon/Documents/GitHub/Perffy-app/images/ProfileDafault.jpeg')}/>
+                            {/* <Image style={{width:120, height:120, borderRadius: 75}} source={require('/Users/juwon/Documents/GitHub/Perffy-app/images/ProfileDafault.jpeg')}/> */}
                         </ProfilePic>
                     </Profile>
                 </ProfileView>
