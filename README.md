@@ -50,7 +50,7 @@ npm install을 통해 React Native CLI 설치해줍니다.
 iOS Simlator를 실행시키기 위해, ```/ios``` 디렉터리 내에서 pod install을 해줍니다.
 
 
-## #M1 Issue
+## M1 Issue
 /ios 디렉토리에서 pod install 시 에러 발생 아래의 에러가 발생할 수 있습니다.
 
 ```
