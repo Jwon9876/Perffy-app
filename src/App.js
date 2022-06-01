@@ -8,9 +8,9 @@ import HomeScreen from './pages/Home';
 import Search from './pages/Search';
 import Setting from './pages/Setting'
 
-import Review from './review/Review';
-import ReviewDetail from './review/ReviewDetail';
-import CreateReview from './review/CreateReview';
+import Review from './pages/review/Review';
+import ReviewDetail from './pages/review/ReviewDetail';
+import CreateReview from './pages/review/CreateReview';
 
 
 const Tab = createBottomTabNavigator();
