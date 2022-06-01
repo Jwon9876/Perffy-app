@@ -50,7 +50,9 @@ function HomeScreen({ navigation }) {
                             최근 리뷰
                         </Title>
 
-                        <MorePostBtn>
+                        <MorePostBtn
+                            onPress={() => navigation.navigate('search')}
+                        >
                             <PostText>
                                 더보기
                             </PostText>
