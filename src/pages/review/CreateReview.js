@@ -4,6 +4,7 @@ import { Alert, Dimensions, Pressable } from 'react-native';
 import { Image } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import { NavigationContainer } from '@react-navigation/native';
+import moment from 'moment';
 
 // TODO: 전체 리뷰 목록 -> Flat List 적용
 
@@ -17,15 +18,18 @@ function CreateReview({ navigation }) {
     const [tag, setTag] = useState("");
     const [selectedTagList, setSelectedTagList] = useState([]);
     const [recommendTagList, setRecommendTagList] = useState(['지속력', '봄', '여름', '가을', '겨울', '분위기', '상쾌한', '정장']);
-    const [tagList, setTagList] = useState(['지속력', '봄', '여름', '가을', '겨울', '분위기', '상쾌한', '정장']);
     const [text, setText] = useState(``);
 
     async function registerReview() {
         await firestore().collection('Reviews')
-            .doc('테스트')
+        // doc naming issue
+        // 날짜로 넣을까?
+        // 다른 방법이 있을까? -> epoch time ?
+
+            .doc(`${moment().format('YYYY-MM-DD HH:mm:ss')}`)
             .set({
                 tags: selectedTagList,
-                dateTime: new Date(),
+                dateTime: moment().format('YYYY-MM-DD HH:mm:ss'),
                 // TODO: User ID -> Login 구현
                 user: "CHOI",
                 text: text
