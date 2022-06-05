@@ -2,14 +2,14 @@ import React from "react";
 import { Text } from "react-native";
 import styled from 'styled-components'
 
-export default function Post({text}){
+export default function Post({data}){
 
     return(
         <PostComponent
-            onPress={() => console.log(text)}
+            onPress={() => console.log(data)}
         >
             <Text>
-                {text}
+                {data}
             </Text>
         </PostComponent>
         
@@ -20,8 +20,8 @@ export default function Post({text}){
 const PostComponent = styled.TouchableOpacity`
     width: 100%;
     height: 150px;
-    margin: 10px;
     padding-left:10px;
+    margin: 5px 0 5px 0;
     border-radius:12px;
     border: 1px black;
     /* TODO */
