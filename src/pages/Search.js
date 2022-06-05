@@ -45,6 +45,17 @@ function Search({ navigation }) {
         })
         // console.log(arr)
     }
+    
+    async function searchReview(keyword){
+        await firestore().collection('Reviews').where('productName', '==', `${keyword}`).get().then(querySnapshot => {
+            // console.log(querySnapshot._docs)
+            querySnapshot.forEach(doc => {
+                let data = doc.data();
+                console.log(data)
+            })
+        });
+    }
+
 
     useEffect(() => {
         loadReviewCollection()
@@ -54,7 +65,6 @@ function Search({ navigation }) {
         return (
             <Post
                 onPress={() => console.log(item)}
-
             >
                 <ProductPicView>
                     <Text>
@@ -73,8 +83,8 @@ function Search({ navigation }) {
                     {/* <Text>
                     {item["tags"].length}
                 </Text> */}
-                <TagView>
-                    {item["tags"].map((element) =>
+                    <TagView>
+                        {item["tags"].map((element) =>
                         (
                             <Tag key={element}>
                                 <Text>
@@ -82,13 +92,13 @@ function Search({ navigation }) {
                                 </Text>
                             </Tag>
                         )
-                    )}
-                </TagView>
+                        )}
+                    </TagView>
 
 
-                    {/* <Text>
-                    {item["text"]}
-                </Text> */}
+                    <Text>
+                        {item["text"]}
+                    </Text>
 
                     {/* <Text>
                     {item["user"]}
@@ -103,15 +113,10 @@ function Search({ navigation }) {
         <SafeAreaView>
             <Searchbar
                 placeholder="검색어를 입력해주세요"
-            // TOBE
-            // onChangeText={(e) => onChangeSearch(e)}
-            // onChangeText={() =>
-            //     queryData.map((value, index) => {
-            //         console.log(value["dateTime"])
-            //     })
-            // }
-
-            // value={searchQuery}
+                onChangeText={(e) => {
+                    onChangeSearch(e),
+                    searchReview(e)
+                }}
             />
             <Container>
                 <FlatList
