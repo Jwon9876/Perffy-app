@@ -1,16 +1,34 @@
-import React from 'react'
-import { ScrollView, Text, Image } from 'react-native';
+import React, {useState} from 'react'
+import { ScrollView, Text, Image} from 'react-native';
 import styled from 'styled-components';
+import defaultImage from '../../images/ProfileDafault.jpeg'
 
 function Setting({ navigation }) {
+ 
+    // 서버에서 사용자 프로필 불러오고 저장된 이미지 없으면, defualt 이미지 삽입
+    const [userImage, setUserImage] = useState('/Users/choejuwon/Documents/GitHub/Perffy-app/images/ProfileDafault.jpeg');
+
+
+
+    // db에 사진 저장 후
+    // useEffect 사용해서
+
+
     return (
         <SafeAreaView>
             <ScrollView>
                 <ProfileView>
                     <Profile>
-                        <ProfilePic onPress={() => console.log("Picture")}>
+                        <ProfilePic onPress={() => console.log(userImage)}>
                             {/* TODO: Image License Checking */}
-                            {/* <Image style={{width:120, height:120, borderRadius: 75}} source={require('/Users/juwon/Documents/GitHub/Perffy-app/images/ProfileDafault.jpeg')}/> */}
+                            <Image 
+                                style={{width:120, height:120, borderRadius: 75}}
+
+                                // TOFIX
+                                // source={require({userImage})}
+
+                            />
+
                         </ProfilePic>
                     </Profile>
                 </ProfileView>
