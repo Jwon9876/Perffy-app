@@ -23,12 +23,9 @@ function Setting({ navigation }) {
                             {/* TODO: Image License Checking */}
                             <Image 
                                 style={{width:120, height:120, borderRadius: 75}}
-
-                                // TOFIX
+                                // TODO
                                 // source={require({userImage})}
-
                             />
-
                         </ProfilePic>
                     </Profile>
                 </ProfileView>

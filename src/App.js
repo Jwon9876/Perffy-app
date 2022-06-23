@@ -18,7 +18,7 @@ const Stack = createNativeStackNavigator();
 
 function Home() {
     return (
-        <Tab.Navigator initialRouteName="Home"
+        <Tab.Navigator initialRouteName="HomeScreen"
             screenOptions={
                 {
                     // "tabBarActiveTintColor": "#cb3bff",
@@ -85,7 +85,7 @@ export default function App() {
             // }}
             >
                 <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-                {/* <Stack.Screen name="Profile" component={Profile} /> */}
+                <Stack.Screen name="Search" component={Search} options={{ headerShown: false }} />
                 <Stack.Screen name="Setting" component={Setting} />
                 <Stack.Screen name="Review" component={Review} options={{ title: "리뷰", headerShown: true }} />
                 <Stack.Screen name="ReviewDetail" component={ReviewDetail} options={{ title: "리뷰", headerShown: true }} />
