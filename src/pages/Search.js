@@ -114,6 +114,7 @@ function Search({ navigation }) {
             <Searchbar
                 placeholder="검색어를 입력해주세요"
                 onChangeText={(e) => {
+                    console.log(e)
                     onChangeSearch(e),
                     searchReview(e)
                 }}
