@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import Login from './pages/Login'
 import HomeScreen from './pages/Home';
 import Search from './pages/Search';
 import Setting from './pages/Setting'
@@ -84,6 +85,9 @@ export default function App() {
             //   },
             // }}
             >
+                <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+
+
                 <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
                 <Stack.Screen name="Search" component={Search} options={{ headerShown: false }} />
                 <Stack.Screen name="Setting" component={Setting} />
