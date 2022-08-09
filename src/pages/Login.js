@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import styled from 'styled-components'
 
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth'
 
 
@@ -16,9 +16,14 @@ function Login(){
       }
 
       const onGoogleButtonPress = async () => {
-        const { idToken } = await GoogleSignin.signIn();
-        const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-        return auth().signInWithCredential(googleCredential);
+        try{
+            const { idToken } = await GoogleSignin.signIn();
+            const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+            return auth().signInWithCredential(googleCredential);
+        } catch{
+            console.log("Google Login is not completed")
+        }
+
     }
 
       useEffect(() => {
@@ -29,11 +34,11 @@ function Login(){
     return(
         <Wrapper>
             
-            <LoginBtn
+            <GoogleSigninButton
                 onPress={() => onGoogleButtonPress()}
             >
 
-            </LoginBtn>
+            </GoogleSigninButton>
 
         </Wrapper>
     )
