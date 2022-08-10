@@ -94,7 +94,7 @@ export default function App() {
 
 
                 <Stack.Screen name="OnBoardingFirstPage" component={OnBoardingFirstPage} options={{ headerShown: false }} />
-                <Stack.Screen name="OnBoardingSecondPage" component={OnBoardingSecondPage} options={{ headerShown: true }} />
+                <Stack.Screen name="OnBoardingSecondPage" component={OnBoardingSecondPage} options={{ headerShown: false }} />
 
 
 
