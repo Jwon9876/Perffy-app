@@ -5,6 +5,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import Login from './pages/Login'
+
+import OnBoardingFirstPage from './pages/OnBoarding/OnBoardingFirstPage';
+import OnBoardingSecondPage from './pages/OnBoarding/OnBoardingSecondPage';
+
 import HomeScreen from './pages/Home';
 import Search from './pages/Search';
 import Setting from './pages/Setting'
@@ -85,7 +89,14 @@ export default function App() {
             //   },
             // }}
             >
-                <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+                {/* <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} /> */}
+
+
+
+                <Stack.Screen name="OnBoardingFirstPage" component={OnBoardingFirstPage} options={{ headerShown: false }} />
+                <Stack.Screen name="OnBoardingSecondPage" component={OnBoardingSecondPage} options={{ headerShown: true }} />
+
+
 
 
                 <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
