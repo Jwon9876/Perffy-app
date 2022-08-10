@@ -1,26 +1,23 @@
 import React, { useState } from "react";
 
 import styled from 'styled-components';
-
-
 import SelectDropdown from 'react-native-select-dropdown'
 
 
-
-function OnBoardingFirstPage({navigation}){
+function OnBoardingFirstPage({ navigation }) {
 
     const sex = ["남성", "여성"]
-    const age = [...Array(100)].map((_, i) => i+1);
+    const age = [...Array(100)].map((_, i) => i + 1 + "세");
 
     const [selectedSex, setSelectedSex] = useState("")
     const [selectedAge, setSelectedAge] = useState("")
 
-    return(
+    return (
         <SafeAreaView>
             <PhaseView>
-                <PhaseRectangle/>
-                <PhasePoint/>
-                <PhasePoint/>
+                <PhaseRectangle />
+                <PhasePoint />
+                <PhasePoint />
             </PhaseView>
 
             <TitleText>
@@ -38,16 +35,19 @@ function OnBoardingFirstPage({navigation}){
 
                 <DetailView>
                     <DetailCell
-                        style = {{marginLeft: 12}}
+                        style={{ marginLeft: 12 }}
                     >
                         <DetailText>
                             성별
                         </DetailText>
 
                         <SelectDropdown
-                            buttonStyle={{width:"85%", height: 40, borderRadius: 10, marginTop: 7, paddingLeft: 20}}
-                            defaultButtonText = {"선택해주세요."}
-                            buttonTextStyle={{fontSize: 14}}
+                            buttonStyle={{ width: "85%", height: 40, borderRadius: 10, marginTop: 7, paddingLeft: 20, }}
+                            defaultButtonText={"선택해주세요."}
+                            buttonTextStyle={{ fontSize: 14 }}
+                            dropdownStyle={{ borderRadius: 7 }}
+                            rowStyle={{ height: 40 }}
+                            selectedRowStyle={{ backgroundColor: "#c4c4c4" }}
                             data={sex}
                             onSelect={(selectedItem, index) => {
                                 console.log(selectedItem, index)
@@ -68,17 +68,20 @@ function OnBoardingFirstPage({navigation}){
 
                     </DetailCell>
                     <DetailCell
-                        style = {{marginLeft: 12}}
-                    >                           
+                        style={{ marginLeft: 12 }}
+                    >
                         <DetailText>
                             나이
                         </DetailText>
 
 
                         <SelectDropdown
-                            buttonStyle={{width:"85%", height: 40, borderRadius: 10, marginTop: 7, paddingLeft: 20}}
-                            defaultButtonText = {"선택해주세요."}
-                            buttonTextStyle={{fontSize: 14}}
+                            buttonStyle={{ width: "85%", height: 40, borderRadius: 10, marginTop: 7, paddingLeft: 20 }}
+                            defaultButtonText={"선택해주세요."}
+                            buttonTextStyle={{ fontSize: 14 }}
+                            dropdownStyle={{ borderRadius: 7 }}
+                            rowStyle={{ height: 40 }}
+                            selectedRowStyle={{ backgroundColor: "#c4c4c4" }}
                             data={age}
                             onSelect={(selectedItem, index) => {
                                 console.log(selectedItem, index)
@@ -110,20 +113,21 @@ function OnBoardingFirstPage({navigation}){
                 </DetailText>
 
                 <DetailView
-                    style = {{alignItems: "center", marginTop: 10, justifyContent: "space-evenly"}}
+                    style={{ alignItems: "center", marginTop: 10, justifyContent: "space-evenly" }}
                 >
                     <NickNameTextInput
-                        placeholder = "3~8자리의 숫자, 영어, 한글만 가능합니다."
-                        style = {{paddingLeft: 5}}
+                        placeholder="3~8자리의 숫자, 영어, 한글만 가능합니다."
+                        placeholderTextColor="#000"
+                        style={{ paddingLeft: 5 }}
                         onChangeText={(e) => console.log(e)}
                     >
                     </NickNameTextInput>
 
                     <NickNameRedundancyCheckBtn
-                        onPress = {() => console.log("TODO")}
+                        onPress={() => console.log("TODO")}
                     >
                         <FreeFormText
-                            style = {{fontSize: 14, color: "#3D969C"}}
+                            style={{ fontSize: 14, color: "#3D969C" }}
                         >
                             중복 확인
                         </FreeFormText>
@@ -140,7 +144,7 @@ function OnBoardingFirstPage({navigation}){
                 <DescriptionnText>
                     필수 선택사항이 아니며, 기본 프로필 사진이 등록됩니다.
                 </DescriptionnText>
-    
+
                 <AddProfileImg>
                     <Add>
                         <PlusX></PlusX>
@@ -148,12 +152,10 @@ function OnBoardingFirstPage({navigation}){
 
                     </Add>
                 </AddProfileImg>
-
-
-
             </ContentView>
 
-            <FooterView>
+            <FooterView
+            >
                 <NextBtn
                     onPress={() => navigation.navigate('OnBoardingSecondPage')}
                 >
@@ -162,18 +164,14 @@ function OnBoardingFirstPage({navigation}){
                     </NextBtnText>
                 </NextBtn>
             </FooterView>
-
-
         </SafeAreaView>
     )
-
 }
 
 
 const SafeAreaView = styled.SafeAreaView`
     flex: 1;
     background-color: #FFFFFF;
-    
 `
 
 const PhaseView = styled.View`
@@ -249,12 +247,16 @@ const NickNameRedundancyCheckBtn = styled.TouchableOpacity`
     align-items: center;
 `;
 
+// TODO
 const FooterView = styled.View`
     justify-content: center;
     align-items: center;
-    bottom: 30px;
+    /* bottom: 30px; */
     width: 100%;
-    position: absolute;
+    /* position: absolute; */
+
+    flex: 1;
+    justify-content: flex-end;
 `;
 
 const NextBtn = styled.TouchableOpacity`
@@ -312,7 +314,7 @@ const PlusY = styled.View`
     height: 3px;
 `;
 
-const FreeFormText  = styled.Text`
+const FreeFormText = styled.Text`
 `;
 
 
