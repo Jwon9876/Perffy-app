@@ -32,22 +32,19 @@ function Login(){
 
 
     return(
-        <Wrapper>
-            
-            <GoogleSigninButton
-                onPress={() => onGoogleButtonPress()}
-            >
-
-            </GoogleSigninButton>
-
-        </Wrapper>
+        <Container>
+            <InnerText>
+                Perffy
+            </InnerText>
+            <GoogleSigninButton onPress={() => onGoogleButtonPress()}/>
+        </Container>
     )
 
 }
 
 export default Login;
 
-const Wrapper = styled.View`
+const Container = styled.View`
     flex: 1;
     justify-content: center;
     align-items: center;
