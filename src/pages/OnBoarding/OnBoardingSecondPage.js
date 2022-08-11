@@ -45,7 +45,7 @@ function OnBoardingSecondPage({navigation}){
     }
 
     function validationCheck(){
-        if(3 > selectedTagList.length){
+        if(selectedTagList.length < 3){
             Alert.alert("태그를 3개 이상 선택해주세요");
         } else{
             console.log(selectedTagList)
