@@ -49,7 +49,7 @@ function OnBoardingSecondPage({navigation}){
             Alert.alert("태그를 3개 이상 선택해주세요");
         } else{
             console.log(selectedTagList)
-            navigation.navigate('Home')
+            navigation.replace('BottomTabBar')
         }
     }
 
