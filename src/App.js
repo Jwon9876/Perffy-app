@@ -1,7 +1,12 @@
 import React from 'react';
+
+import Image from 'react-native'
+
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import Login from './pages/Login'
@@ -21,6 +26,8 @@ import CreateReview from './pages/review/CreateReview';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+// TODO: Stack Refactoring
+
 function Home() {
     return (
         <Tab.Navigator initialRouteName="HomeScreen"
@@ -37,18 +44,40 @@ function Home() {
                     "tabBarStyle": [
                         {
                             "display": "flex",
-                            "backgroundColor": "white"
+                            "backgroundColor": "white",
+                            "paddingBottom": "20%"
                         },
                     ],
                 }
             }
         >
             <Tab.Screen name="HomeScreen" component={HomeScreen}
+                // options={{
+                //     title: '홈',
+                //     tabBarIcon: ({ color, size }) => (
+                //         // <Icon name="home" color={color} size={size} />
+                //         <Image
+                //             resizeMode = {'contain'}
+                //             source={'src/components/icons/tabBarHomeIcon.png'}
+                //         >
+
+                //         </Image>
+                //     ),
+
                 options={{
-                    title: '홈',
-                    tabBarIcon: ({ color, size }) => (
-                        <Icon name="home" color={color} size={size} />
-                    ),
+                    tabBarIcon: ({ focused }) => {
+                        return (
+                            <Image
+                                resizeMode={'contain'}
+                                source={
+                                    {
+                                        uri: '/Users/choejuwon/Documents/GitHub/Perffy-app/src/components/icons/tabBarHomeIcon.png'
+                                    }
+                                }
+                            //   style={styles.icon}
+                            />
+                        );
+                    },
                     headerShown: false
                 }}
 
@@ -93,8 +122,8 @@ export default function App() {
 
 
 
-                <Stack.Screen name="OnBoardingFirstPage" component={OnBoardingFirstPage} options={{ headerShown: false }} />
-                <Stack.Screen name="OnBoardingSecondPage" component={OnBoardingSecondPage} options={{ headerShown: false }} />
+                {/* <Stack.Screen name="OnBoardingFirstPage" component={OnBoardingFirstPage} options={{ headerShown: false }} /> */}
+                {/* <Stack.Screen name="OnBoardingSecondPage" component={OnBoardingSecondPage} options={{ headerShown: false }} /> */}
 
 
 
