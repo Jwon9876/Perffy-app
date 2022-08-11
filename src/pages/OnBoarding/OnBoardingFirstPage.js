@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import styled from 'styled-components';
 import SelectDropdown from 'react-native-select-dropdown'
+import { Alert } from "react-native";
 
 
 function OnBoardingFirstPage({ navigation }) {
@@ -11,6 +12,20 @@ function OnBoardingFirstPage({ navigation }) {
 
     const [selectedSex, setSelectedSex] = useState("")
     const [selectedAge, setSelectedAge] = useState("")
+
+    const [nickname, setNickname] = useState("")
+
+    function validationCheck({selectedSex, selectedAge, nickname}){
+        if(selectedSex == ""){
+            Alert.alert("성별을 입력해주세요");
+        } else if(selectedAge == ""){
+            Alert.alert("나이를 입력해주세요");
+        } else if(nickname == ""){
+            Alert.alert("닉네임 입력해주세요");
+        } else{
+            return navigation.navigate('OnBoardingSecondPage')
+        }
+    }
 
     return (
         <SafeAreaView>
@@ -115,23 +130,23 @@ function OnBoardingFirstPage({ navigation }) {
                 <DetailView
                     style={{ alignItems: "center", marginTop: 10, justifyContent: "space-evenly" }}
                 >
-                    <NickNameTextInput
+                    <NicknameTextInput
                         placeholder="3~8자리의 숫자, 영어, 한글만 가능합니다."
                         placeholderTextColor="#000"
                         style={{ paddingLeft: 5 }}
-                        onChangeText={(e) => console.log(e)}
+                        onChangeText={(e) => setNickname(e)}
                     >
-                    </NickNameTextInput>
+                    </NicknameTextInput>
 
-                    <NickNameRedundancyCheckBtn
-                        onPress={() => console.log("TODO")}
+                    <NicknameRedundancyCheckBtn
+                        onPress={() => console.log(nickname)}
                     >
                         <FreeFormText
                             style={{ fontSize: 14, color: "#3D969C" }}
                         >
                             중복 확인
                         </FreeFormText>
-                    </NickNameRedundancyCheckBtn>
+                    </NicknameRedundancyCheckBtn>
 
 
                 </DetailView>
@@ -157,7 +172,7 @@ function OnBoardingFirstPage({ navigation }) {
             <FooterView
             >
                 <NextBtn
-                    onPress={() => navigation.navigate('OnBoardingSecondPage')}
+                    onPress={() => validationCheck({selectedSex, selectedAge, nickname})}
                 >
                     <NextBtnText>
                         다음 단계
@@ -230,14 +245,14 @@ const DescriptionnText = styled.Text`
     color: #9E9E9E;
 `;
 
-const NickNameTextInput = styled.TextInput`
+const NicknameTextInput = styled.TextInput`
     width: 70%;
     height: 33px;
     border: 1px;
     border-radius: 7px;
 `;
 
-const NickNameRedundancyCheckBtn = styled.TouchableOpacity`
+const NicknameRedundancyCheckBtn = styled.TouchableOpacity`
     height: 33px;
     width: 70px;
     border-width: 1.5px;
