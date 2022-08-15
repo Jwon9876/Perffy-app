@@ -162,6 +162,7 @@ function OnBoardingFirstPage({ navigation }) {
 
                 <AddProfileImg>
                     <Add>
+                        <PlusY></PlusY>
                         <PlusX></PlusX>
                         <PlusY></PlusY>
 
@@ -315,17 +316,18 @@ const Add = styled.View`
     justify-content: center;
     align-items: center;
     position: relative;
+    flex-direction: row;
 `;
 
 const PlusX = styled.View`
     background-color: #F5F5F5;
     width: 3px;
-    height: 6px;
+    height: 8px;
 `;
 
 const PlusY = styled.View`
     background-color: #F5F5F5;
-    width: 6px;
+    width: 3px;
     height: 3px;
 `;
 
