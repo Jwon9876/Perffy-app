@@ -26,6 +26,8 @@ function Home({ navigation }) {
     ];
 
 
+    const zeroToTenArr = [...Array(10)].map((_, i) => i);
+
     return (
         <SafeAreaView>
             <ScrollView>
@@ -152,6 +154,37 @@ function Home({ navigation }) {
                     <RankingTitleText> 20대 여성에게 가장 인기있는 </RankingTitleText>
                     <RankingTitleText> 향수<TitleColoredText color={"#5ABACA"}>Top 10</TitleColoredText> </RankingTitleText>
                     <PerfumeRankingListView>
+                        <ScrollView horizontal={true}>
+                            {
+                                zeroToTenArr.map((_, i) =>
+                                    <RankedPerfumeCell key={i}>
+                                        <RankedNumber>
+                                            <RankedNumberText>
+                                                TOP {i + 1}
+                                            </RankedNumberText>
+                                        </RankedNumber>
+                                        <RankedPerfumeImg>
+
+                                        </RankedPerfumeImg>
+
+                                        <DescriptionText
+                                            style={{ color: '#9E9E9E' }}
+                                        >
+                                            랑방
+                                        </DescriptionText>
+
+                                        <DescriptionText
+                                            style={{ color: '#212121', width: 120, textAlign: 'center'}}
+                                            numberOfLines={2}
+                                            ellipsizeMode={'tail'}
+
+                                        >
+                                            에끌라 드 아르페쥬 우먼 오드퍼퓸
+                                        </DescriptionText>
+                                    </RankedPerfumeCell>
+                                )
+                            }
+                        </ScrollView>
 
                     </PerfumeRankingListView>
                 </PerfumeRankingView>
@@ -291,11 +324,48 @@ const RankingTitleText = styled.Text`
 `;
 
 const PerfumeRankingListView = styled.View`
+    flex-direction: row;
+    overflow: scroll;
+    /* height: 300px; */
+    margin-top: 10px;
+`;
 
+const RankedPerfumeCell = styled.TouchableOpacity`
+    width: 150px;
+    height: 180px;
+    /* border: 1px solid; */
+    margin-right: 15px;
+    justify-content: center;
+    align-items: center;
+`;
+
+const RankedNumber = styled.View`
+    width: 50px;
+    height: 25px;
+    border-radius: 12px;
+    background-color: #FFA1B2;
+    position: relative;
+    right: 40px;
+    top: 0;
+    justify-content: center;
+    align-items: center;
+`;
+
+const RankedNumberText = styled.Text`
+    color: #FFFFFF;
+`;
+
+const RankedPerfumeImg = styled.View`
+    width: 50px;
+    height: 60px;
+    border-radius: 7px;
+    background-color: #D9D9D9;
+    margin-top: 7px;
 `;
 
 const HrBar = styled.View`
     margin-top: 25px;
+    margin-bottom: 500px;
     width: 100%;
     height: 6px;
     background-color: #F8F8F8;
