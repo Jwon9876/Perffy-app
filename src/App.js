@@ -3,7 +3,7 @@ import React from 'react';
 import Image from 'react-native'
 
 
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -15,7 +15,7 @@ import OnBoardingFirstPage from './pages/OnBoarding/OnBoardingFirstPage';
 import OnBoardingSecondPage from './pages/OnBoarding/OnBoardingSecondPage';
 
 import Home from './pages/Home';
-import SeachPage from './pages/SeachPage';
+import SearchPage from './pages/SearchPage';
 
 
 import Search from './pages/Search';
@@ -30,7 +30,7 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const screenOptions = {
-    tabBarActiveTintColor: "#8c0485",
+    tabBarActiveTintColor: "#5ABACA",
     tabBarLabelStyle: {
         fontSize: 12
     },
@@ -40,10 +40,10 @@ const screenOptions = {
     tabBarStyle: [
         {
             display: 'flex',
-            backgroundColor: "white",
-            paddingBottom: "20%"
+            backgroundColor: "#FFFFFF",
+            paddingBottom: "20%",
         },
-    ],
+    ]
 }
 
 
@@ -53,13 +53,20 @@ function BottomTabBar() {
             screenOptions={screenOptions}
         >
             <Tab.Screen name="HomeStack" component={HomeStack}
-                options={{
+                options={({ route }) => ({
                     title: '홈',
                     tabBarIcon: ({ color, size }) => (
-                        <Icon name="home" color={color} size={size}/>
+                        <Icon name="home" color={color} size={size} />
                     ),
-                    headerShown: false
-                }}
+                    headerShown: false,
+                    tabBarStyle: ((route) => {
+                        const routeName = getFocusedRouteNameFromRoute(route) ?? ""
+                        if (routeName === 'SearchPage') {
+                            return { display: "none" }
+                        }
+                        return
+                    })(route),
+                })}
             />
             <Tab.Screen name="검색" component={Search}
                 options={{
@@ -97,15 +104,16 @@ const OnBoardingStack = () => {
     );
 };
 
-const HomeStack = ({navigation, route}) => {
+const HomeStack = ({ navigation, route }) => {
     const Stack = createNativeStackNavigator();
     return (
         <Stack.Navigator
             screenOptions={{
                 headerShown: false,
-            }}>
+            }}
+        >
             <Stack.Screen name={'Home'} component={Home} />
-            <Stack.Screen name={'SeachPage'} component={SeachPage}/>
+            <Stack.Screen name={'SearchPage'} component={SearchPage}/>
         </Stack.Navigator>
     );
 };
