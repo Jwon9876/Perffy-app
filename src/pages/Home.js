@@ -26,39 +26,40 @@ function Home({ navigation }) {
     ];
 
 
-    const zeroToTenArr = [...Array(10)].map((_, i) => i);
+    const zeroToTenArr = [...Array(10)].map((_, i) => i + 1);
 
     return (
         <SafeAreaView>
+            <SearchBarView>
+                <SearchBar
+                    onPress={() => navigation.navigate('SearchPage')}
+                >
+                    <Image
+                        style={{ marginRight: 5 }}
+                        source={require('../components/icons/searchIcon.png')}
+                    />
+                    <SearchBarInnerText>
+                        향수 이름, 브랜드, 향기 등으로 찾기
+                    </SearchBarInnerText>
+                </SearchBar>
+            </SearchBarView>
             <ScrollView>
-                <SearchBarView>
-                    <SearchBar
-                        onPress={() => navigation.navigate('SeachPage')}
-                    >
-                        <Image
-                            style={{ marginRight: 5 }}
-                            source={require('../components/icons/searchIcon.png')}
-                        />
-                        <SearchBarInnerText>
-                            향수 이름, 브랜드, 향기 등으로 찾기
-                        </SearchBarInnerText>
-                    </SearchBar>
-                </SearchBarView>
 
-                <TitleView>
-                    <TitleText style={{ color: "#212121" }}>
-                        <TitleColoredText color={"#5ABACA"}>김퍼피</TitleColoredText>님이 </TitleText>
 
-                    <TitleText>
-                        님이 좋아하실 만한 향수예요.
-                    </TitleText>
-
-                    <DescriptionText>
-                        상큼한 향기로 기분 전환 해보세요.
-                    </DescriptionText>
-                </TitleView>
-
+                {/* TODO: 안드로이드 shadow 적용 */}
                 <RecommendationView>
+                    <RecommendationViewTitleView>
+                        <RecommendationViewTitleText style={{ color: "#212121" }}>
+                            <ColoredTitleText color={"#5ABACA"}>김퍼피</ColoredTitleText>님이 </RecommendationViewTitleText>
+
+                        <RecommendationViewTitleText>
+                            님이 좋아하실 만한 향수예요.
+                        </RecommendationViewTitleText>
+
+                        <DescriptionText>
+                            상큼한 향기로 기분 전환 해보세요.
+                        </DescriptionText>
+                    </RecommendationViewTitleView>
                     <RecommendationListView
                         style={{ backgroundColor: '#fff', borderRadius: 17, borderColor: 'black' }}
                         shadowOffset={{ width: 5, height: 6 }}
@@ -142,25 +143,27 @@ function Home({ navigation }) {
                             </FavoriteBtn>
                         </RecommendedPerfume>
                     </RecommendationListView>
-                    <MoreBtn>
-                        <DescriptionText>
+                    <MorePerfumeBtn>
+                        <DescriptionText
+                            style={{ fontSize: 13, color: "#666666" }}
+                        >
                             향수 더 찾아보기 {'>'}
                         </DescriptionText>
-                    </MoreBtn>
+                    </MorePerfumeBtn>
 
                 </RecommendationView>
 
                 <PerfumeRankingView>
-                    <RankingTitleText> 20대 여성에게 가장 인기있는 </RankingTitleText>
-                    <RankingTitleText> 향수<TitleColoredText color={"#5ABACA"}>Top 10</TitleColoredText> </RankingTitleText>
+                    <PerfumeRankingViewRecommendationViewTitleText> 20대 여성에게 가장 인기있는 </PerfumeRankingViewRecommendationViewTitleText>
+                    <PerfumeRankingViewRecommendationViewTitleText> 향수<ColoredTitleText color={"#5ABACA"}>Top 10</ColoredTitleText> </PerfumeRankingViewRecommendationViewTitleText>
                     <PerfumeRankingListView>
                         <ScrollView horizontal={true}>
                             {
-                                zeroToTenArr.map((_, i) =>
+                                zeroToTenArr.map((v, i) =>
                                     <RankedPerfumeCell key={i}>
                                         <RankedNumber>
                                             <RankedNumberText>
-                                                TOP {i + 1}
+                                                TOP {v}
                                             </RankedNumberText>
                                         </RankedNumber>
                                         <RankedPerfumeImg>
@@ -174,7 +177,7 @@ function Home({ navigation }) {
                                         </DescriptionText>
 
                                         <DescriptionText
-                                            style={{ color: '#212121', width: 120, textAlign: 'center'}}
+                                            style={{ color: '#212121', width: 120, textAlign: 'center' }}
                                             numberOfLines={2}
                                             ellipsizeMode={'tail'}
 
@@ -191,6 +194,110 @@ function Home({ navigation }) {
 
                 <HrBar></HrBar>
 
+                {/* TODO: 안드로이드 shadow 적용 */}
+                <PerffyUserReviewView>
+                    <PerffyUserReviewTitleView>
+                        <PerffyUserReviewViewTitle>
+                            퍼피 유저들의 리뷰보기
+                        </PerffyUserReviewViewTitle>
+
+
+                        <MoreReviewBtn>
+                            <DescriptionText
+                                style={{ fontSize: 13, color: "#666666" }}
+                            >
+                                더보기 {'>'}
+                            </DescriptionText>
+                        </MoreReviewBtn>
+                    </PerffyUserReviewTitleView>
+
+                    <PerffyUserReviewCardListView
+                    // style={{ backgroundColor: '#fff', borderRadius: 17, borderColor: 'black' }}
+                    // shadowOffset={{ width: 5, height: 6 }}
+                    // shadowColor='black'
+                    // shadowOpacity={1}
+                    >
+                        <ScrollView horizontal={true}
+                        >
+                            <PerffyUserReviewCardView
+                                style={{ backgroundColor: '#fff', borderRadius: 17, borderColor: 'black' }}
+                                shadowOffset={{ width: 5, height: 6 }}
+                                shadowColor='black'
+                                shadowOpacity={0.25}
+                            >
+                                <PerffyUserReviewCard
+
+                                >
+                                    <CardInnerImgView>
+
+                                    </CardInnerImgView>
+
+                                    <CardInnerProfilePicture
+                                        style={{ zIndex: 100 }}
+                                    ></CardInnerProfilePicture>
+
+                                    <CardInnerTextView>
+
+                                    </CardInnerTextView>
+
+                                </PerffyUserReviewCard>
+                            </PerffyUserReviewCardView>
+
+                            <PerffyUserReviewCardView
+                                style={{ backgroundColor: '#fff', borderRadius: 17, borderColor: 'black' }}
+                                shadowOffset={{ width: 5, height: 6 }}
+                                shadowColor='black'
+                                shadowOpacity={0.25}
+                            >
+                                <PerffyUserReviewCard
+
+                                >
+                                    <CardInnerImgView>
+
+                                    </CardInnerImgView>
+
+                                    <CardInnerProfilePicture
+                                        style={{ zIndex: 100 }}
+                                    ></CardInnerProfilePicture>
+
+                                    <CardInnerTextView>
+
+                                    </CardInnerTextView>
+
+                                </PerffyUserReviewCard>
+                            </PerffyUserReviewCardView>
+
+                            <PerffyUserReviewCardView
+                                style={{ backgroundColor: '#fff', borderRadius: 17, borderColor: 'black' }}
+                                shadowOffset={{ width: 5, height: 6 }}
+                                shadowColor='black'
+                                shadowOpacity={0.25}
+                            >
+                                <PerffyUserReviewCard
+
+                                >
+                                    <CardInnerImgView>
+
+                                    </CardInnerImgView>
+
+                                    <CardInnerProfilePicture
+                                        style={{ zIndex: 100 }}
+                                    ></CardInnerProfilePicture>
+
+                                    <CardInnerTextView>
+
+                                    </CardInnerTextView>
+
+                                </PerffyUserReviewCard>
+                            </PerffyUserReviewCardView>
+
+
+                        </ScrollView>
+                    </PerffyUserReviewCardListView>
+                </PerffyUserReviewView>
+
+
+
             </ScrollView>
         </SafeAreaView>
     )
@@ -204,7 +311,6 @@ const SafeAreaView = styled.SafeAreaView`
 
 const ScrollView = styled.ScrollView`
     flex: 1;
-    
 `;
 
 const SearchBarView = styled.TouchableOpacity`
@@ -235,18 +341,19 @@ const RecommendationView = styled.View`
 `;
 
 
-const TitleView = styled.View`
+const RecommendationViewTitleView = styled.View`
     margin-top: 30px;
-    margin-left: 15px;
+    position: relative;
+    right: 50px;
 `;
 
 
-const TitleText = styled.Text`
+const RecommendationViewTitleText = styled.Text`
     font-size: 22px;
     font-weight: bold;
 `;
 
-const TitleColoredText = (props) => (
+const ColoredTitleText = (props) => (
     <Text
         style={{
             color: props.color
@@ -302,11 +409,9 @@ const PerfumeNameText = (props) => {
 }
 
 const FavoriteBtn = styled.TouchableOpacity`
-
 `;
 
-
-const MoreBtn = styled.TouchableOpacity`
+const MorePerfumeBtn = styled.TouchableOpacity`
     position: relative;
     left: 125px;
     margin-top: 10px;
@@ -317,7 +422,7 @@ const PerfumeRankingView = styled.View`
     margin-left: 15px;
 `;
 
-const RankingTitleText = styled.Text`
+const PerfumeRankingViewRecommendationViewTitleText = styled.Text`
     font-size: 16px;
     font-weight: 500;
     color: #212121;
@@ -365,13 +470,75 @@ const RankedPerfumeImg = styled.View`
 
 const HrBar = styled.View`
     margin-top: 25px;
-    margin-bottom: 500px;
+    margin-bottom: 50px;
     width: 100%;
     height: 6px;
     background-color: #F8F8F8;
 `;
 
+const PerffyUserReviewView = styled.View`
+    margin-bottom: 15px;
+    padding: 0 15px 0 15px;
+`;
 
+const PerffyUserReviewTitleView = styled.View`
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
+`;
+
+const PerffyUserReviewViewTitle = styled.Text`
+    font-size: 16px;
+    font-weight: 500;
+    color: #212121;
+`;
+
+const PerffyUserReviewCardListView = styled.View`
+    margin-top: 15px;
+`;
+
+const PerffyUserReviewCardView = styled.View`
+    margin-bottom: 20px;
+    margin-right: 20px;
+`;
+
+const PerffyUserReviewCard = styled.TouchableOpacity`
+    flex: 1;
+    width: 330px;
+    height: 250px;
+    border-radius: 15px;
+`;
+
+const CardInnerImgView = styled.View`
+    flex: .45;
+    background-color: #666666;
+    border-radius: 14px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+`;
+
+const CardInnerTextView = styled.View`
+    flex: .55;
+    background-color: #FFFFFF;
+    border-radius: 14px;
+`;
+
+const CardInnerProfilePicture = styled.TouchableOpacity`
+    position: absolute;
+    top: 35%;
+    width: 45px;
+    height: 45px;
+    border: 1px solid;
+    border-color: #FFFFFF;
+    border-radius: 22.5px;
+    background-color: #D9D9D9;
+    margin-left: 10px;
+`;
+
+
+const MoreReviewBtn = styled.TouchableOpacity`
+`;
 
 
 export default Home;
