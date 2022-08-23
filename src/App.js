@@ -64,7 +64,11 @@ function BottomTabBar() {
                         if (routeName === 'SearchPage') {
                             return { display: "none" }
                         }
-                        return
+                        return {
+                            display: 'flex',
+                            backgroundColor: "#FFFFFF",
+                            paddingBottom: "20%",
+                        }
                     })(route),
                 })}
             />
