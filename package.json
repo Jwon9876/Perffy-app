@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "android-clean":"cd android && sudo ./gradlew clean && cd ..",
+    "android": "cp android/app/src/dev/google-services.json android/app/google-services.json && react-native run-android",
+    "android-dev": "cp android/app/src/dev/google-services.json android/app/google-services.json && react-native run-android",
+    "android-prd": "cp android/app/src/prd/google-services.json android/app/google-services.json && react-native run-android"
   },
   "dependencies": {
     "@react-native-firebase/app": "^14.9.1",
@@ -25,6 +28,8 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-native": "0.68.2",
+    "react-native-config": "^1.4.6",
+    "react-native-dotenv": "^3.3.1",
     "react-native-gesture-handler": "~2.2.1",
     "react-native-gradle-plugin": "^0.70.2",
     "react-native-image-picker": "^4.8.3",
