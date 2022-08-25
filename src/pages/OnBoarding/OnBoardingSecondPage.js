@@ -3,7 +3,19 @@ import { Alert } from "react-native";
 
 import styled from "styled-components";
 
-function OnBoardingSecondPage({navigation}){
+import firestore from '@react-native-firebase/firestore';
+
+
+function OnBoardingSecondPage({navigation, route}){
+
+    // var userInformation = route.params.userInformation
+
+    const [userInformation, setUserInformation] = useState(route.params.userInformation)
+
+    const sex = route.params.userInformation["sex"]        
+    const age = route.params.userInformation["age"]
+    const nickname = route.params.userInformation["nickname"]
+
 
     const perfumeTag = ["우디", "시트러스", "머스크", "레더", "플로럴", "그린", "아쿠아", "오리엔탈"];
     const [selectedTagList, setSelectedTagList] = useState([]);
@@ -42,6 +54,22 @@ function OnBoardingSecondPage({navigation}){
             return
         }
         setSelectedTagList([...selectedTagList, tag])
+        setUserInformation(interest=[...selectedTagList, tag])
+    }
+
+    async function submitUserInfo() {
+        await firestore().collection('Users')
+            .doc()
+            .set({
+                age: age,
+                sex: sex,
+                userNickname: nickname,
+                interest: selectedTagList
+            })
+            .then(() => {
+                console.log('Review registered!');
+                navigation.replace('BottomTabBar')
+            });
     }
 
     function validationCheck(){
@@ -49,18 +77,21 @@ function OnBoardingSecondPage({navigation}){
             Alert.alert("태그를 3개 이상 선택해주세요");
         } else{
             console.log(selectedTagList)
-            navigation.replace('BottomTabBar')
+            console.log(sex, age, nickname)
+            submitUserInfo()
         }
     }
 
     
 
+    
+
     return(
+
         <SafeAreaView>
             <PhaseView>
                 <PhasePoint />
                 <PhaseRectangle />
-                <PhasePoint />
             </PhaseView>
 
             <TitleText>
