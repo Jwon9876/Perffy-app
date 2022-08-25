@@ -1,37 +1,77 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+
 
 import styled from 'styled-components';
 import SelectDropdown from 'react-native-select-dropdown'
 import { Alert } from "react-native";
 
+import firestore from '@react-native-firebase/firestore';
+
+
+
+
 
 function OnBoardingFirstPage({ navigation }) {
 
-    const sex = ["남성", "여성"]
-    const age = [...Array(100)].map((_, i) => i + 1 + "세");
 
-    const [selectedSex, setSelectedSex] = useState("")
-    const [selectedAge, setSelectedAge] = useState("")
+    const [userInformation, setUserInformation] = useState({
+        sex: selectedSex,
+        age: selectedAge,
+        nickname: nickname
+    })
 
-    const [nickname, setNickname] = useState("")
+    const sex = ["남성", "여성"];
+    // const age = [...Array(100)].map((_, i) => i + 1 + "세");
+    const age = ["10대", "20대", "30대", "40대", "50대", "60대 이상"];
 
-    function validationCheck({selectedSex, selectedAge, nickname}){
-        if(selectedSex == ""){
-            Alert.alert("성별을 입력해주세요");
-        } else if(selectedAge == ""){
-            Alert.alert("나이를 입력해주세요");
-        } else if(nickname == ""){
-            Alert.alert("닉네임 입력해주세요");
-        } else{
-            return navigation.navigate('OnBoardingSecondPage')
+    const [selectedSex, setSelectedSex] = useState("");
+    const [selectedAge, setSelectedAge] = useState("");
+
+    const [nickname, setNickname] = useState("");
+    const [nicknameRedundancy, setNicknameRedundancy] = useState(false);
+
+    function validationCheck({ selectedSex, selectedAge, nickname }) {
+        if (selectedSex == "") {
+            Alert.alert("성별을 입력해주세요.");
+        } else if (selectedAge == "") {
+            Alert.alert("나이를 입력해주세요.");
+        } else if (nickname == "") {
+            Alert.alert("닉네임 입력해주세요.");
+        } else if (nicknameRedundancy == false) {
+            Alert.alert("닉네임 중복확인을 해주세요.")
+        }
+        else {
+            return navigation.navigate('OnBoardingSecondPage', { userInformation })
         }
     }
+    async function nicknameRedundancyCheck(nickname) {
+        await firestore().collection('Users').where('userNickname', '==', nickname).get().then(querySnapshot => {
+            const result = querySnapshot._docs;
+            if (result.length == 0) {
+                setNicknameRedundancy(true)
+                Alert.alert("사용가능한 닉네임입니다.")
+            } else {
+                Alert.alert("이미 사용 중인 닉네임입니다.")
+            }
+            // querySnapshot.forEach(doc => {
+            //     let data = doc.data();
+            //     console.log(data)
+            // })
+        });
+    }
+
+    useEffect(() => {
+        setUserInformation({
+            sex: selectedSex,
+            age: selectedAge,
+            nickname: nickname
+        })
+    }, [selectedSex, selectedAge, nickname]);
 
     return (
         <SafeAreaView>
             <PhaseView>
                 <PhaseRectangle />
-                <PhasePoint />
                 <PhasePoint />
             </PhaseView>
 
@@ -50,24 +90,19 @@ function OnBoardingFirstPage({ navigation }) {
 
                 <DetailView>
                     <DetailCell
-                        style={{ marginLeft: 12 }}
+                        style={{ marginLeft: 12}}
                     >
-                        <DetailText>
-                            성별
-                        </DetailText>
-
                         <SelectDropdown
-                            buttonStyle={{ width: "85%", height: 40, borderRadius: 10, marginTop: 7, paddingLeft: 20, }}
+                            buttonStyle={{ width: "85%", height: 40, borderRadius: 10, marginTop: 15, paddingLeft: 20, backgroundColor: "#F8F8F8" }}
                             defaultButtonText={"선택해주세요."}
-                            buttonTextStyle={{ fontSize: 14 }}
+                            buttonTextStyle={{ fontSize: 14}}
                             dropdownStyle={{ borderRadius: 7 }}
                             rowStyle={{ height: 40 }}
-                            selectedRowStyle={{ backgroundColor: "#c4c4c4" }}
+                            selectedRowStyle={{ backgroundColor: "#F8F8F8" }}
                             data={sex}
                             onSelect={(selectedItem, index) => {
                                 console.log(selectedItem, index)
                                 setSelectedSex(selectedItem)
-
                             }}
                             buttonTextAfterSelection={(selectedItem, index) => {
                                 // text represented after item is selected
@@ -85,18 +120,14 @@ function OnBoardingFirstPage({ navigation }) {
                     <DetailCell
                         style={{ marginLeft: 12 }}
                     >
-                        <DetailText>
-                            나이
-                        </DetailText>
-
-
                         <SelectDropdown
-                            buttonStyle={{ width: "85%", height: 40, borderRadius: 10, marginTop: 7, paddingLeft: 20 }}
+                            buttonStyle={{ width: "85%", height: 40, borderRadius: 10, marginTop: 15, paddingLeft: 20, backgroundColor: "#F8F8F8" }}
                             defaultButtonText={"선택해주세요."}
                             buttonTextStyle={{ fontSize: 14 }}
                             dropdownStyle={{ borderRadius: 7 }}
                             rowStyle={{ height: 40 }}
-                            selectedRowStyle={{ backgroundColor: "#c4c4c4" }}
+                            selectedRowStyle={{ backgroundColor: "#F8F8F8" }}
+
                             data={age}
                             onSelect={(selectedItem, index) => {
                                 console.log(selectedItem, index)
@@ -122,24 +153,31 @@ function OnBoardingFirstPage({ navigation }) {
                 <ContentText>
                     닉네임 설정
                 </ContentText>
-
-                <DetailText>
-                    닉네임
-                </DetailText>
-
                 <DetailView
                     style={{ alignItems: "center", marginTop: 10, justifyContent: "space-evenly" }}
                 >
                     <NicknameTextInput
                         placeholder="3~8자리의 숫자, 영어, 한글만 가능합니다."
-                        placeholderTextColor="#000"
+                        placeholderTextColor="#9E9E9E"
                         style={{ paddingLeft: 5 }}
-                        onChangeText={(e) => setNickname(e)}
+                        onChangeText={(e) => {
+                            setNicknameRedundancy(false)
+                            setNickname(e)
+                        }
+                        }
                     >
                     </NicknameTextInput>
 
                     <NicknameRedundancyCheckBtn
-                        onPress={() => console.log(nickname)}
+                        onPress={() => {
+                            console.log(nickname)
+                            if (nickname == "") {
+                                Alert.alert("닉네임을 입력해주세요")
+                            } else {
+                                nicknameRedundancyCheck(nickname)
+                            }
+                        }
+                        }
                     >
                         <FreeFormText
                             style={{ fontSize: 14, color: "#3D969C" }}
@@ -173,7 +211,7 @@ function OnBoardingFirstPage({ navigation }) {
             <FooterView
             >
                 <NextBtn
-                    onPress={() => validationCheck({selectedSex, selectedAge, nickname})}
+                    onPress={() => validationCheck({ selectedSex, selectedAge, nickname })}
                 >
                     <NextBtnText>
                         다음 단계
@@ -249,8 +287,8 @@ const DescriptionnText = styled.Text`
 const NicknameTextInput = styled.TextInput`
     width: 70%;
     height: 33px;
-    border: 1px;
     border-radius: 7px;
+    background-color: #F8F8F8;
 `;
 
 const NicknameRedundancyCheckBtn = styled.TouchableOpacity`
