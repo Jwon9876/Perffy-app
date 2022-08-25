@@ -8,10 +8,6 @@ import firestore from '@react-native-firebase/firestore';
 
 function OnBoardingSecondPage({navigation, route}){
 
-    // var userInformation = route.params.userInformation
-
-    const [userInformation, setUserInformation] = useState(route.params.userInformation)
-
     const sex = route.params.userInformation["sex"]        
     const age = route.params.userInformation["age"]
     const nickname = route.params.userInformation["nickname"]
@@ -54,7 +50,6 @@ function OnBoardingSecondPage({navigation, route}){
             return
         }
         setSelectedTagList([...selectedTagList, tag])
-        setUserInformation(interest=[...selectedTagList, tag])
     }
 
     async function submitUserInfo() {
