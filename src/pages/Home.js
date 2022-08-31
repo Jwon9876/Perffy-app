@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, Text, Dimensions } from 'react-native';
 
 import styled from "styled-components";
@@ -7,7 +7,12 @@ import { WithLocalSvg } from "react-native-svg";
 import FavoriteFalse from '../components/icons/FavoriteFalse.svg';
 import FavoriteTrue from '../components/icons/FavoriteTrue.svg';
 
-function Home({ navigation }) {
+import firestore from '@react-native-firebase/firestore';
+import { useRecoilValue } from "recoil";
+import { userNickname } from "../store/store";
+
+
+function Home({ navigation, route }) {
 
     const windowWidth = Dimensions.get('window').width;
     const windowHeight = Dimensions.get('window').height;
@@ -25,8 +30,15 @@ function Home({ navigation }) {
         "시슬리 오 뒤 스와르 오 드빠르퓸"
     ];
 
+    const storedUserNickname = useRecoilValue(userNickname)
 
     const zeroToTenArr = [...Array(10)].map((_, i) => i + 1);
+
+    useEffect(() => {
+        console.log("route is ")
+        console.log(route)
+    }, [])
+
 
     return (
         <SafeAreaView>
@@ -50,7 +62,7 @@ function Home({ navigation }) {
                 <RecommendationView>
                     <RecommendationViewTitleView>
                         <RecommendationViewTitleText style={{ color: "#212121" }}>
-                            <ColoredTitleText color={"#5ABACA"}>김퍼피</ColoredTitleText>님이 </RecommendationViewTitleText>
+                            <ColoredTitleText color={"#5ABACA"}>{storedUserNickname}</ColoredTitleText>님이 </RecommendationViewTitleText>
 
                         <RecommendationViewTitleText>
                             님이 좋아하실 만한 향수예요.
