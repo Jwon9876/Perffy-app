@@ -7,12 +7,13 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "android-clean":"cd android && sudo ./gradlew clean && cd ..",
+    "android-clean": "cd android && sudo ./gradlew clean && cd ..",
     "android": "cp android/app/src/dev/google-services.json android/app/google-services.json && react-native run-android",
     "android-dev": "cp android/app/src/dev/google-services.json android/app/google-services.json && react-native run-android",
     "android-prd": "cp android/app/src/prd/google-services.json android/app/google-services.json && react-native run-android"
   },
   "dependencies": {
+    "@actbase/react-kakaosdk": "^0.9.19",
     "@react-native-firebase/app": "^14.9.1",
     "@react-native-firebase/auth": "^14.9.1",
     "@react-native-firebase/firestore": "^14.9.1",
@@ -41,6 +42,7 @@
     "react-native-svg": "^13.0.0",
     "react-native-vector-icons": "^9.1.0",
     "react-native-web": "0.17.7",
+    "recoil": "^0.7.5",
     "styled-components": "^5.3.5"
   },
   "devDependencies": {

@@ -11,6 +11,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
+		98DE046528BE1D8B00568D86 /* Headers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DE046428BE1D8B00568D86 /* Headers.swift */; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		D779D8505BE3F240771AEDBE /* libPods-Perffyapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B3B273E4E27803C52131BD4D /* libPods-Perffyapp.a */; };
@@ -27,6 +28,7 @@
 		7C2288DA6F936E42E64E15C8 /* Pods-Perffyapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Perffyapp.release.xcconfig"; path = "Target Support Files/Pods-Perffyapp/Pods-Perffyapp.release.xcconfig"; sourceTree = "<group>"; };
 		98A9493E28B6045800345CF5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		98A9494028B6045800345CF5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		98DE046428BE1D8B00568D86 /* Headers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Headers.swift; sourceTree = "<group>"; };
 		A6BB05C9B0A68AF4C67787BE /* Pods-Perffyapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Perffyapp.debug.xcconfig"; path = "Target Support Files/Pods-Perffyapp/Pods-Perffyapp.debug.xcconfig"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = Perffyapp/SplashScreen.storyboard; sourceTree = "<group>"; };
 		B3B273E4E27803C52131BD4D /* libPods-Perffyapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Perffyapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -59,6 +61,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
+				98DE046428BE1D8B00568D86 /* Headers.swift */,
 			);
 			name = Perffyapp;
 			sourceTree = "<group>";
@@ -381,6 +384,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98DE046528BE1D8B00568D86 /* Headers.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */,

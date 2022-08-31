@@ -27,6 +27,17 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
-    <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" android:exported="false"/>
+
+
+        <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity" android:exported="true">
+          <intent-filter>
+            <action android:name="android.intent.action.VIEW"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <category android:name="android.intent.category.BROWSABLE"/>
+            <data android:host="oauth" android:scheme="kakao4509f18ebc0576c5883a7032529cb59c"/>
+          </intent-filter>
+        </activity>
+      
+    <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" android:exported="true"/>
   </application>
 </manifest>
