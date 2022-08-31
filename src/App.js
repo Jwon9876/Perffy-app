@@ -1,7 +1,11 @@
 import React from 'react';
-
-import Image from 'react-native'
-
+import {
+    RecoilRoot,
+    atom,
+    selector,
+    useRecoilState,
+    useRecoilValue,
+  } from 'recoil';
 
 import { NavigationContainer, getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -124,14 +128,19 @@ const HomeStack = ({ navigation, route }) => {
 
 
 export default function App() {
+
+
     return (
         // 하위 페이지를 여기에 계속 추가할 게 아니라, 하나의 탭바 안에 하나의 스택 단위로 묶어서 탭바안에다가 넣기
-        <NavigationContainer>
-            <Stack.Navigator>
-                {/* <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} /> */}
-                {/* <Stack.Screen name="OnBoarding" component={OnBoardingStack} options = {{headerShown: false}}/> */}
-                <Stack.Screen name="BottomTabBar" component={BottomTabBar} options={{ headerShown: false }} />
-            </Stack.Navigator>
-        </NavigationContainer>
+        <RecoilRoot>
+            <NavigationContainer>
+                <Stack.Navigator>
+                    <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+                    <Stack.Screen name="OnBoarding" component={OnBoardingStack} options = {{headerShown: false}}/>
+                    <Stack.Screen name="BottomTabBar" component={BottomTabBar} options={{ headerShown: false }} />
+                </Stack.Navigator>
+            </NavigationContainer>
+        </RecoilRoot>
+
     );
 }
