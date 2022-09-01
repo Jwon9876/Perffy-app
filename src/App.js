@@ -7,6 +7,8 @@ import {
     useRecoilValue,
   } from 'recoil';
 
+import { Image } from 'react-native';
+
 import { NavigationContainer, getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -28,6 +30,10 @@ import Setting from './pages/Setting'
 import Review from './pages/review/Review';
 import ReviewDetail from './pages/review/ReviewDetail';
 import CreateReview from './pages/review/CreateReview';
+
+import HomeIcon from '../src/components/icons/HomeIcon.png';
+import EditReviewIcon from '../src/components/icons/EditReviewIcon.png';
+import MyPerffyIcon from '../src/components/icons/MyPerffyIcon.png'
 
 
 const Tab = createBottomTabNavigator();
@@ -59,10 +65,11 @@ function BottomTabBar() {
             <Tab.Screen name="HomeStack" component={HomeStack}
                 options={({ route }) => ({
                     title: '홈',
-                    tabBarIcon: ({ color, size }) => (
-                        <Icon name="home" color={color} size={size} />
+                    tabBarIcon: () => (
+                        (<Image source={HomeIcon} style={{width: 20, height: 20}} />)
                     ),
                     headerShown: false,
+                   
                     tabBarStyle: ((route) => {
                         const routeName = getFocusedRouteNameFromRoute(route) ?? ""
                         if (routeName === 'SearchPage') {
@@ -76,20 +83,23 @@ function BottomTabBar() {
                     })(route),
                 })}
             />
-            <Tab.Screen name="검색" component={Search}
+
+            {/* TODO */}
+            {/* 리뷰쓰기 */}
+            <Tab.Screen name="리뷰 쓰기" component={Search}
                 options={{
-                    title: '검색',
-                    tabBarIcon: ({ color, size }) => (
-                        <Icon name="search" color={color} size={size} />
+                    title: '리뷰 쓰기',
+                    tabBarIcon: () => (
+                        (<Image source={EditReviewIcon} style={{width: 20, height: 20}} />)
                     ),
                     headerShown: false
                 }}
             />
-            <Tab.Screen name="설정" component={Setting}
+            <Tab.Screen name="마이 퍼피" component={Setting}
                 options={{
-                    title: '설정',
-                    tabBarIcon: ({ color, size }) => (
-                        <Icon name="settings" color={color} size={size} />
+                    title: '마이 퍼피',
+                    tabBarIcon: () => (
+                        (<Image source={MyPerffyIcon} style={{width: 20, height: 20}} />)
                     ),
                     headerShown: false
                 }}
