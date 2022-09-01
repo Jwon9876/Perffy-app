@@ -1,47 +1,84 @@
-import React, {useState} from "react";
-import { Alert } from "react-native";
+import React, { useState } from "react";
+import { Alert, Image, Text } from "react-native";
 
 import styled from "styled-components";
 
 import firestore from '@react-native-firebase/firestore';
 
+import Woody from '../../components/icons/Woody.png'
+import Citrus from '../../components/icons/Citrus.png'
+import Musk from '../../components/icons/Musk.png'
+import Leather from '../../components/icons/Leather.png'
+import Floral from '../../components/icons/Floral.png'
+import Green from '../../components/icons/Green.png'
+import Aqua from '../../components/icons/Aqua.png'
+import Oriental from '../../components/icons/Oriental.png'
 
-function OnBoardingSecondPage({navigation, route}){
+import { useRecoilValue } from 'recoil';
+import { userId } from "../../store/store"
 
-    const sex = route.params.userInformation["sex"]        
+
+function OnBoardingSecondPage({ navigation, route }) {
+
+    const sex = route.params.userInformation["sex"]
     const age = route.params.userInformation["age"]
     const nickname = route.params.userInformation["nickname"]
+    const id = useRecoilValue(userId)
 
 
     const perfumeTag = ["우디", "시트러스", "머스크", "레더", "플로럴", "그린", "아쿠아", "오리엔탈"];
+    const perfumeTagImage = [Woody, Citrus, Musk, Leather, Floral, Green, Aqua, Oriental]
+    const perfumeTagDescription = [
+        "숲속에 있는 나무향",
+        "레몬, 오렌지와 같은 상큼함",
+        "살냄새가 나는 달달함과 묵직한 향",
+        "고급진 가죽향",
+        "달콤한 꽃향",
+        "막 베어낸 풀과 나뭇잎의 향",
+        "바다를 연상시키는 상쾌하고 시원한 향",
+        "따뜻하고 이국적이며 관능적인 느낌의 향",
+    ]
+
     const [selectedTagList, setSelectedTagList] = useState([]);
 
-    const notPressdTagStyle = {
-        fontSize:12, 
-        backgroundColor: "#EFEFEF",
-        marginTop: 12,
-        marginLeft:5,
-        padding: 3
-    }
-
-    const notPressdTextStyle = {
-        marginLeft: 0,
-        fontSize: 13,
-        color: "#666666"
-    }
-
     const pressdTagStyle = {
-        fontSize:12, 
-        backgroundColor: "#5ABACA",
-        marginTop: 12,
-        marginLeft:5,
-        padding: 3
+        // fontSize: 12,
+        // backgroundColor: "#5ABACA",
+        // marginTop: 12,
+        // marginLeft: 5,
+        // padding: 3,
+        borderWidth: 1.5,
+        borderColor: "#5ABACA",
+    }
+
+    const notPressdTagStyle = {
     }
 
     const pressdTextStyle = {
-        marginLeft: 0,
-        fontSize: 13,
-        color: "#FFFFFF"
+        fontSize: 14,
+        color: "#5ABACA",
+        width: 100,
+        height: 20
+    }
+
+    const notPressdTextStyle = {
+        fontSize: 14,
+        width: 100,
+        height: 20
+    }
+
+    const pressdTagDescriptionStyle = {
+        fontSize: 12,
+        color: "#5ABACA",
+        width: 100,
+        height: 50
+    }
+
+    const notPressdTagDescriptionStyle = {
+        fontSize: 12,
+        // color: "#5ABACA",
+        width: 100,
+        height: 50
     }
 
     function insertTag(tag) {
@@ -59,90 +96,110 @@ function OnBoardingSecondPage({navigation, route}){
                 age: age,
                 sex: sex,
                 userNickname: nickname,
-                interest: selectedTagList
+                interest: selectedTagList,
+                id: id,
+                signInType: 'kakao'
             })
             .then(() => {
                 console.log('Review registered!');
+
                 navigation.replace('BottomTabBar')
             });
     }
 
-    function validationCheck(){
-        if(selectedTagList.length < 3){
+    function validationCheck() {
+        if (selectedTagList.length < 3) {
             Alert.alert("태그를 3개 이상 선택해주세요");
-        } else{
+        } else {
             console.log(selectedTagList)
             console.log(sex, age, nickname)
             submitUserInfo()
         }
     }
 
-    
 
-    
 
-    return(
+
+
+    return (
 
         <SafeAreaView>
-            <PhaseView>
-                <PhasePoint />
-                <PhaseRectangle />
-            </PhaseView>
+            <ScrollView>
+                <PhaseView>
+                    <PhasePoint />
+                    <PhaseRectangle />
+                </PhaseView>
 
-            <TitleText>
-                관심 향수를 선택해주세요
-            </TitleText>
+                <TitleText>
+                    관심 향수를 선택해주세요
+                </TitleText>
 
-            <DescriptionnText
-                style = {{fontSize:12, marginTop: 30}}
-            >
-                * 3가지 이상 선택해주세요
-            </DescriptionnText>
-            <PerfumeTagView>
+                <DescriptionnText
+                    style={{ fontSize: 12, marginTop: 30 }}
+                >
+                    * 3가지 이상 선택해주세요
+                </DescriptionnText>
+                <PerfumeTagView>
 
-                {
-                    perfumeTag.map((v, i) => 
-                        <PerfumeTag key={v}
-                            // style = {{marginTop: 12, marginLeft:5, padding: 3}}
-                            style = {                         
-                                (
-                                    selectedTagList.includes(v)
-                                ) ? (
-                                    pressdTagStyle
-                                ) : (
-                                    notPressdTagStyle
-                                )
-                            }
-                            onPress = {() => insertTag(v)}
-                        >
-                            <DescriptionnText
-                                style = {
-                                    (
-                                        selectedTagList.includes(v)
-                                    ) ? (
-                                        pressdTextStyle
-                                    ) : (
-                                        notPressdTextStyle
-                                    )
-                                }
+                    {
+                        perfumeTag.map((v, i) =>
+                            <PerfumeTagInnerView key={v}>
+                                <PerfumeTag
+                                    style={
+                                        (
+                                            selectedTagList.includes(v)
+                                        ) ? (
+                                            pressdTagStyle
+                                        ) : (
+                                            notPressdTagStyle
+                                        )
+                                    }
+                                    onPress={() => insertTag(v)}
+                                >
 
-                                
-                            >
-                                {v}
-                            </DescriptionnText>
-                        </PerfumeTag>
-                    )
+                                    <Image
+                                        style={{ margin: 1, width: 100, height: 100 }}
+                                        source={perfumeTagImage[i]}
+                                    />
+                                </PerfumeTag>
+                                <DescriptionnText
+                                    style={
+                                        (
+                                            selectedTagList.includes(v)
+                                        ) ? (
+                                            pressdTextStyle
+                                        ) : (
+                                            notPressdTextStyle
+                                        )
+                                    }
+                                >
+                                    {v}
+                                </DescriptionnText>
 
-                    
-                }
+                                <DescriptionnText
+                                    style={
+                                        (
+                                            selectedTagList.includes(v)
+                                        ) ? (
+                                            pressdTagDescriptionStyle
+                                        ) : (
+                                            notPressdTagDescriptionStyle
+                                        )
+                                    }
+                                >
+                                    {perfumeTagDescription[i]}
+                                </DescriptionnText>
+                            </PerfumeTagInnerView>
 
-            </PerfumeTagView>
 
+                        )
+                    }
 
+                </PerfumeTagView>
+            </ScrollView>
             <FooterView
             >
                 <PreviousBtn
-                    style = {{marginBottom: 5}}
                     onPress={() => navigation.goBack()}
                 >
                     <PreviousBtnText>
@@ -164,6 +221,12 @@ function OnBoardingSecondPage({navigation, route}){
 
 const SafeAreaView = styled.SafeAreaView`
     flex: 1;
+    background-color: #FFFFFF;
+`;
+
+const ScrollView = styled.ScrollView`
+    flex: 1;
+    background-color: #FFFFFF;
 `;
 
 const TitleText = styled.Text`
@@ -205,18 +268,15 @@ const PhasePoint = styled.View`
 `
 
 const FooterView = styled.View`
+    flex-direction: row;
+    background-color: #FFFFFF;
     justify-content: center;
     align-items: center;
-    /* bottom: 30px; */
     width: 100%;
-    /* position: absolute; */
-
-    flex: 1;
-    justify-content: flex-end;
 `;
 
 const NextBtn = styled.TouchableOpacity`
-    width: 80%;
+    width: 60%;
     height: 45px;
     background-color: #3D969C;
     border-radius: 10px;
@@ -231,12 +291,13 @@ const NextBtnText = styled.Text`
 `;
 
 const PreviousBtn = styled.TouchableOpacity`
-    width: 80%;
+    width: 30%;
     height: 45px;
     background-color: #DADADA;
     border-radius: 10px;
     justify-content: center;
     align-items: center;
+    margin-right: 10px;
 `;
 
 const PreviousBtnText = styled.Text`
@@ -249,21 +310,28 @@ const PreviousBtnText = styled.Text`
 const PerfumeTagView = styled.View`
     flex-wrap: wrap;
     flex-direction: row;
-    padding: 10px 10px;
     justify-content: flex-start;
+`;
+
+const PerfumeTagInnerView = styled.View`
+    align-items: center; 
+    justify-content: center;
+    /* margin-bottom: 15px; */
+    margin-top: 10px;
+    min-height: 190px;
 `;
 
 const PerfumeTag = styled.TouchableOpacity`
     /* border: 1px solid; */
     border-radius:7px;
-    padding: 2px;
-    margin: 2px;
-    align-items: center;
+    /* padding: 2px;s */
+    margin-bottom: 10px;
+    align-items: center; 
     justify-content: center;
     inline-size: block;
-    min-width: 50px;
-    width: auto;
-    height: 30px;
+    min-width: 30%;
+    margin-right: 5px;
+    margin-left: 5px;
 `;
 
 export default OnBoardingSecondPage;
