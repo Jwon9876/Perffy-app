@@ -3,21 +3,25 @@ import React, { useEffect, useState } from "react";
 
 import styled from 'styled-components';
 import SelectDropdown from 'react-native-select-dropdown'
-import { Alert } from "react-native";
+import { Alert, TouchableOpacity } from "react-native";
 
 import firestore from '@react-native-firebase/firestore';
-
+import { useRecoilValue, useRecoilState } from 'recoil';
+import { userId, userNickname } from '../../store/store';
 
 
 
 
 function OnBoardingFirstPage({ navigation }) {
 
+    const storedUserId = useRecoilValue(userId)
+    const [recoilNickname, setRecoilNickname] = useRecoilState(userNickname);
 
     const [userInformation, setUserInformation] = useState({
         sex: selectedSex,
         age: selectedAge,
-        nickname: nickname
+        nickname: nickname,
+        userId: storedUserId
     })
 
     const sex = ["남성", "여성"];
@@ -29,6 +33,37 @@ function OnBoardingFirstPage({ navigation }) {
 
     const [nickname, setNickname] = useState("");
     const [nicknameRedundancy, setNicknameRedundancy] = useState(false);
+
+    const nicknameRedundancyCheckEnalbleStyle = {
+        height: 33,
+        width: 70,
+        borderWidth: 1.5,
+        borderColor: "#3D969C",
+        borderRadius: 7,
+        justifyContent: "center",
+        alignItems: "center"
+    }
+
+    const nicknameRedundancyCheckDisalbleStyle = {
+        height: 33,
+        width: 70,
+        borderWidth: 1.5,
+        borderColor: "#ECECEC",
+        borderRadius: 7,
+        justifyContent: "center",
+        alignItems: "center"
+    }
+
+    const nicknameRedundancyCheckEnalbleTextStyle = {
+        fontSize: 14,
+        color: "#3D969C"
+    }
+
+    const nicknameRedundancyCheckDisalbleTextStyle = {
+        fontSize: 14,
+        color: "#ECECEC"
+    }
+
 
     function validationCheck({ selectedSex, selectedAge, nickname }) {
         if (selectedSex == "") {
@@ -44,11 +79,13 @@ function OnBoardingFirstPage({ navigation }) {
             return navigation.navigate('OnBoardingSecondPage', { userInformation })
         }
     }
+
     async function nicknameRedundancyCheck(nickname) {
         await firestore().collection('Users').where('userNickname', '==', nickname).get().then(querySnapshot => {
             const result = querySnapshot._docs;
             if (result.length == 0) {
                 setNicknameRedundancy(true)
+                setRecoilNickname(nickname)
                 Alert.alert("사용가능한 닉네임입니다.")
             } else {
                 Alert.alert("이미 사용 중인 닉네임입니다.")
@@ -64,7 +101,8 @@ function OnBoardingFirstPage({ navigation }) {
         setUserInformation({
             sex: selectedSex,
             age: selectedAge,
-            nickname: nickname
+            nickname: nickname,
+            userId: storedUserId
         })
     }, [selectedSex, selectedAge, nickname]);
 
@@ -90,12 +128,12 @@ function OnBoardingFirstPage({ navigation }) {
 
                 <DetailView>
                     <DetailCell
-                        style={{ marginLeft: 12}}
+                        style={{ marginLeft: 12 }}
                     >
                         <SelectDropdown
                             buttonStyle={{ width: "85%", height: 40, borderRadius: 10, marginTop: 15, paddingLeft: 20, backgroundColor: "#F8F8F8" }}
                             defaultButtonText={"선택해주세요."}
-                            buttonTextStyle={{ fontSize: 14}}
+                            buttonTextStyle={{ fontSize: 14 }}
                             dropdownStyle={{ borderRadius: 7 }}
                             rowStyle={{ height: 40 }}
                             selectedRowStyle={{ backgroundColor: "#F8F8F8" }}
@@ -149,7 +187,6 @@ function OnBoardingFirstPage({ navigation }) {
                 </DetailView>
 
 
-
                 <ContentText>
                     닉네임 설정
                 </ContentText>
@@ -168,7 +205,16 @@ function OnBoardingFirstPage({ navigation }) {
                     >
                     </NicknameTextInput>
 
-                    <NicknameRedundancyCheckBtn
+                    <TouchableOpacity
+                        style={
+                            (
+                                nicknameRedundancy
+                            ) ? (
+                                nicknameRedundancyCheckDisalbleStyle
+                            ) : (
+                                nicknameRedundancyCheckEnalbleStyle
+                            )
+                        }
                         onPress={() => {
                             console.log(nickname)
                             if (nickname == "") {
@@ -180,11 +226,19 @@ function OnBoardingFirstPage({ navigation }) {
                         }
                     >
                         <FreeFormText
-                            style={{ fontSize: 14, color: "#3D969C" }}
+                            style={
+                                (
+                                    nicknameRedundancy
+                                ) ? (
+                                    nicknameRedundancyCheckDisalbleTextStyle
+                                ) : (
+                                    nicknameRedundancyCheckEnalbleTextStyle
+                                )
+                            }
                         >
                             중복 확인
                         </FreeFormText>
-                    </NicknameRedundancyCheckBtn>
+                    </TouchableOpacity>
 
 
                 </DetailView>
@@ -291,7 +345,7 @@ const NicknameTextInput = styled.TextInput`
     background-color: #F8F8F8;
 `;
 
-const NicknameRedundancyCheckBtn = styled.TouchableOpacity`
+const NicknameRedundancyCheckEnalbleBtn = styled.TouchableOpacity`
     height: 33px;
     width: 70px;
     border-width: 1.5px;
@@ -300,6 +354,17 @@ const NicknameRedundancyCheckBtn = styled.TouchableOpacity`
     justify-content: center;
     align-items: center;
 `;
+
+const NicknameRedundancyCheckDisalbleBtn = styled.TouchableOpacity`
+    height: 33px;
+    width: 70px;
+    border-width: 1.5px;
+    /* border-color: #3D969C; */
+    border-radius: 7px;
+    justify-content: center;
+    align-items: center;
+`;
+
 
 // TODO
 const FooterView = styled.View`
@@ -314,7 +379,7 @@ const FooterView = styled.View`
 `;
 
 const NextBtn = styled.TouchableOpacity`
-    width: 80%;
+    width: 85%;
     height: 45px;
     background-color: #3D969C;
     border-radius: 10px;
