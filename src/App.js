@@ -73,7 +73,9 @@ function BottomTabBar() {
                     tabBarStyle: ((route) => {
                         const routeName = getFocusedRouteNameFromRoute(route) ?? ""
                         if (routeName === 'SearchPage') {
-                            return { display: "none" }
+                            return { 
+                                display: "none"
+                                }
                         }
                         return {
                             display: 'flex',
