@@ -28,16 +28,20 @@ function SearchPage({ navigation }) {
                     />
                 </BackArrowBtn>
 
-                <SearchBar
-                    onPress={() => navigation.navigate('SearchPage')}
-                >
+                <SearchBar>
                     <Image
                         style={{ marginRight: 5 }}
                         source={require('../components/icons/searchIcon.png')}
                     />
-                    <SearchBarInnerText>
+                    <SearchTextInput
+                        placeholder = "향수 이름, 브랜드, 향기 등으로 찾기"
+                        placeholderTextColor = '#9E9E9E'
+                        onChangeText = {(e) => console.log(e)}
+                        onSubmitEditting = {(e) => console.log("Submit !")}
+                    />
+                    {/* <SearchBarInnerText>
                         향수 이름, 브랜드, 향기 등으로 찾기
-                    </SearchBarInnerText>
+                    </SearchBarInnerText> */}
                 </SearchBar>
             </SearchBarView>
 
@@ -56,9 +60,14 @@ function SearchPage({ navigation }) {
                                     {v}
                                 </RecentSearchKeyword>
 
-                                <RecentSearchKeyword>
-                                    X
-                                </RecentSearchKeyword>
+                                <RecentSearchKeyworDeletedBtn>
+                                    <RecentSearchKeyword
+                                        onPress={() => console.log("Delete it !")}
+                                    >
+                                        X
+                                    </RecentSearchKeyword>
+                                </RecentSearchKeyworDeletedBtn>
+
                             </RecentSearchKeywordBtn>
                         ))
                     }
@@ -97,14 +106,14 @@ const ScrollView = styled.ScrollView`
     background-color: #FFFFFF;
 `;
 
-const SearchBarView = styled.TouchableOpacity`
+const SearchBarView = styled.View`
     flex-direction: row;
     justify-content: center;
     align-items: center;
     padding-top: 15px;
 `;
 
-const SearchBar = styled.TouchableOpacity`
+const SearchBar = styled.View`
     width: 85%;
     height: 42px;
     /* border: 1px solid; */
@@ -114,6 +123,11 @@ const SearchBar = styled.TouchableOpacity`
     padding-left: 10px;
     background-color: #F8F8F8;
     flex-direction: row;
+    padding-right: 30px;
+`;
+
+const SearchTextInput = styled.TextInput`
+    
 `;
 
 const SearchBarInnerText = styled.Text`
@@ -147,6 +161,9 @@ const RecentSearchKeywordBtn = styled.TouchableOpacity`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+`;
+
+const RecentSearchKeyworDeletedBtn = styled.TouchableOpacity`
 `;
 
 const RecommendationTagView = styled.View`
@@ -184,7 +201,5 @@ const RecommendationTagBtn = styled.TouchableOpacity`
     justify-content: center;
     
 `;
-
-
 
 export default SearchPage; 
