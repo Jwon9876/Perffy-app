@@ -21,6 +21,7 @@ import OnBoardingFirstPage from './pages/OnBoarding/OnBoardingFirstPage';
 import OnBoardingSecondPage from './pages/OnBoarding/OnBoardingSecondPage';
 
 import Home from './pages/Home';
+import ReviewWritingPage from './pages/review/ReviewWritingPage';
 import SearchPage from './pages/SearchPage';
 
 
@@ -88,12 +89,15 @@ function BottomTabBar() {
 
             {/* TODO */}
             {/* 리뷰쓰기 */}
-            <Tab.Screen name="리뷰 쓰기" component={Search}
+            <Tab.Screen name="리뷰 쓰기" component={ReviewWritingPage}
                 options={{
                     title: '리뷰 쓰기',
                     tabBarIcon: () => (
                         (<Image source={EditReviewIcon} style={{width: 20, height: 20}} />)
                     ),
+                    tabBarStyle: {
+                        // display: "none"
+                    },
                     headerShown: false
                 }}
             />
