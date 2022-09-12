@@ -1,34 +1,87 @@
-import React, {useState} from 'react'
-import { ScrollView, Text, Image} from 'react-native';
+import React from 'react'
+
+import { Text, Image } from 'react-native';
+
 import styled from 'styled-components';
-import defaultImage from '../../images/ProfileDafault.jpeg'
+
+import MyReviewIcon from '../components/icons/Setting/MyReviewIcon.png';
+import FavoritePerfumeIcon from '../components/icons/Setting/FavoritePerfumeIcon.png';
+import EditInterestIcon from '../components/icons/Setting/EditInterestIcon.png';
+import EditProfileIcon from '../components/icons/Setting/EditProfileIcon.png';
+import AppSettingIcon from '../components/icons/Setting/AppSettingIcon.png';
+import QnAIcon from '../components/icons/Setting/QnAIcon.png';
+import LogOutIcon from '../components/icons/Setting/LogOutIcon.png';
+import DeleteAccountIcon from '../components/icons/Setting/DeleteAccountIcon.png';
 
 function Setting({ navigation }) {
- 
-    // 서버에서 사용자 프로필 불러오고 저장된 이미지 없으면, defualt 이미지 삽입
-    const [userImage, setUserImage] = useState('/Users/choejuwon/Documents/GitHub/Perffy-app/images/ProfileDafault.jpeg');
-
-
-
-    // db에 사진 저장 후
-    // useEffect 사용해서
-
-
     return (
         <SafeAreaView>
+            <HeaderView>
+                <HeaderText>
+                    마이 퍼피
+                </HeaderText>
+            </HeaderView>
+
+            <ProfileView>
+                <ProfileImg />
+                <UserNickname>
+                    마이 퍼피
+                </UserNickname>
+                <DescriptionText>
+                    작성한 리뷰
+                    <ColoredText
+                        color="#FFA1B2"
+                    >
+                        0
+                    </ColoredText>
+                    개
+                </DescriptionText>
+            </ProfileView>
             <ScrollView>
-                <ProfileView>
-                    <Profile>
-                        <ProfilePic onPress={() => console.log(userImage)}>
-                            {/* TODO: Image License Checking */}
-                            <Image 
-                                style={{width:120, height:120, borderRadius: 75}}
-                                // TODO
-                                // source={require({userImage})}
-                            />
-                        </ProfilePic>
-                    </Profile>
-                </ProfileView>
+
+                {/* TO REMOVE */}
+                <Cell>
+                    <Image style={{ width: 20, height: 20 }} source={MyReviewIcon}/>
+                    <Text style = {{fontSize: 14, fontWeight: '500', marginLeft: 10}}> 내 리뷰 </Text>
+                </Cell>
+
+                <Cell>
+                    <Image style={{ width: 20, height: 20 }} source={FavoritePerfumeIcon}/>
+                    <Text style = {{fontSize: 14, fontWeight: '500', marginLeft: 10}}> 찜한 향수 </Text>
+                </Cell>
+
+                <Cell>
+                    <Image style={{ width: 20, height: 20 }} source={EditInterestIcon}/>
+                    <Text style = {{fontSize: 14, fontWeight: '500', marginLeft: 10}}> 관심 향기 설정 </Text>
+                </Cell>
+
+                <Cell>
+                    <Image style={{ width: 20, height: 20 }} source={EditProfileIcon}/>
+                    <Text style = {{fontSize: 14, fontWeight: '500', marginLeft: 10}}> 프로필 수정 </Text>
+                </Cell>
+
+                <HrBar></HrBar>
+
+                <Cell>
+                    <Image style={{ width: 20, height: 20 }} source={AppSettingIcon}/>
+                    <Text style = {{fontSize: 14, fontWeight: '500', marginLeft: 10}}> 앱 설정 </Text>
+                </Cell>
+
+                <Cell>
+                    <Image style={{ width: 20, height: 20 }} source={QnAIcon}/>
+                    <Text style = {{fontSize: 14, fontWeight: '500', marginLeft: 10}}> 문의하기 </Text>
+                </Cell>
+
+                <Cell>
+                    <Image style={{ width: 20, height: 20 }} source={LogOutIcon}/>
+                    <Text style = {{fontSize: 14, fontWeight: '500', marginLeft: 10}}> 로그아웃 </Text>
+                </Cell>
+
+                <Cell>
+                    <Image style={{ width: 20, height: 20 }} source={DeleteAccountIcon}/>
+                    <Text style = {{fontSize: 14, fontWeight: '500', marginLeft: 10}}> 계정 삭제 </Text>
+                </Cell>
+
             </ScrollView>
         </SafeAreaView>
     )
@@ -36,39 +89,72 @@ function Setting({ navigation }) {
 
 const SafeAreaView = styled.SafeAreaView`
     flex: 1;
+    background-color: #FFFFFF;
+`;
+
+const ScrollView = styled.ScrollView`
+    flex: 1;
+`;
+
+const HeaderView = styled.View`
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px 0 20px;
+`;
+
+const HeaderText = styled.Text`
+    font-size: 16px;
+    font-weight: bold;
 `;
 
 const ProfileView = styled.View`
-    flex: 1;
-    padding: 5px;
-`;
-
-const Profile = styled.TouchableOpacity`
-    width: 100%;
-    height: 150px;
-    border-radius: 15px;
-    border: 1px solid;
-    justify-content: center;
-`;
-
-const ProfilePic = styled.TouchableOpacity`
-    width: 120px;
-    height: 120px;
-    padding-left:10px;
-    border-radius:75px;
-    border: 1px solid;
-    margin-left: 10px;
-    justify-content: center;
     align-items: center;
-    padding: 0px;
 `;
 
-const ProfilePicEdit = styled.View`
-    background-color: red;
-    width: 50px;
-    height: 50px;
-    overflow: hidden;
+const ProfileImg = styled.View`
+    width: 64px;
+    height: 64px;
+    border-radius: 32px;
+    background-color: #D9D9D9;
+    margin-top: 25px;
 `;
 
+const UserNickname = styled.Text`
+    color: #212121;
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 15px;
+`;
+
+const DescriptionText = styled.Text`
+    color: #666666;
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 5px;
+`;
+
+const ColoredText = (props) => (
+    <Text
+        style={{
+            color: props.color
+        }}
+    >
+        {props.children}
+    </Text>
+)
+
+const Cell = styled.TouchableOpacity`
+    flex-direction: row;
+    align-items: center;
+    padding-left: 12px;
+    height: 48px;
+`;
+
+const HrBar = styled.View`
+    width: 100%;
+    height: 7px;
+    background-color: #F8F8F8;
+`;
 
 export default Setting; 
