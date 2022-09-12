@@ -134,11 +134,11 @@ function OnBoardingSecondPage({ navigation, route }) {
                     관심 향수를 선택해주세요
                 </TitleText>
 
-                <DescriptionnText
+                <DescriptionText
                     style={{ fontSize: 12, marginTop: 30 }}
                 >
                     * 3가지 이상 선택해주세요
-                </DescriptionnText>
+                </DescriptionText>
                 <PerfumeTagView>
 
                     {
@@ -162,7 +162,7 @@ function OnBoardingSecondPage({ navigation, route }) {
                                         source={perfumeTagImage[i]}
                                     />
                                 </PerfumeTag>
-                                <DescriptionnText
+                                <DescriptionText
                                     style={
                                         (
                                             selectedTagList.includes(v)
@@ -174,9 +174,9 @@ function OnBoardingSecondPage({ navigation, route }) {
                                     }
                                 >
                                     {v}
-                                </DescriptionnText>
+                                </DescriptionText>
 
-                                <DescriptionnText
+                                <DescriptionText
                                     style={
                                         (
                                             selectedTagList.includes(v)
@@ -188,7 +188,7 @@ function OnBoardingSecondPage({ navigation, route }) {
                                     }
                                 >
                                     {perfumeTagDescription[i]}
-                                </DescriptionnText>
+                                </DescriptionText>
                             </PerfumeTagInnerView>
 
 
@@ -235,7 +235,7 @@ const TitleText = styled.Text`
     margin-left: 16px;
 `;
 
-const DescriptionnText = styled.Text`
+const DescriptionText = styled.Text`
     font-size: 10px;
     /* font-weight: 500; */
     margin-left: 16px;

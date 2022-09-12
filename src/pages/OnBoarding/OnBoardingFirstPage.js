@@ -122,9 +122,9 @@ function OnBoardingFirstPage({ navigation }) {
                     성별 및 나이
                 </ContentText>
 
-                <DescriptionnText>
+                <DescriptionText>
                     본 응답은 통계 목적으로만 사용됩니다.
-                </DescriptionnText>
+                </DescriptionText>
 
                 <DetailView>
                     <DetailCell
@@ -248,9 +248,9 @@ function OnBoardingFirstPage({ navigation }) {
                     프로필 사진 등록
                 </ContentText>
 
-                <DescriptionnText>
+                <DescriptionText>
                     필수 선택사항이 아니며, 기본 프로필 사진이 등록됩니다.
-                </DescriptionnText>
+                </DescriptionText>
 
                 <AddProfileImg>
                     <Add>
@@ -330,7 +330,7 @@ const ContentText = styled.Text`
     margin-top: 35px;
 `;
 
-const DescriptionnText = styled.Text`
+const DescriptionText = styled.Text`
     font-size: 10px;
     /* font-weight: 500; */
     margin-left: 16px;
