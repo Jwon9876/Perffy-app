@@ -1,18 +1,22 @@
 import React, { useState } from "react";
-import { Image, Text, Dimensions } from 'react-native';
+import { Image, Text, Dimensions, TextInput } from 'react-native';
 
 import styled from 'styled-components';
 
 import { WithLocalSvg } from "react-native-svg";
 import BackArrowIcon from '../components/icons/BackArrowIcon.svg'
 
+import searchIcon from '../components/icons/searchIcon.png'
 
+import { storeRecentSearchWord, getRecentSearchWord } from "../AsyncStorage/AsyncStorage";
 
 
 function SearchPage({ navigation }) {
 
     const tempRecentKeywordData = ["조말론", "딥디크", "바이레도"];
     const tempRecommnadationTagData = ["#비 오는 날", "#여름", "#겨울", "#데이트"];
+
+    const [searchWord, setSearchWord] = useState("")
 
     return (
 
@@ -31,47 +35,62 @@ function SearchPage({ navigation }) {
                 <SearchBar>
                     <Image
                         style={{ marginRight: 5 }}
-                        source={require('../components/icons/searchIcon.png')}
+                        source={searchIcon}
                     />
-                    <SearchTextInput
-                        placeholder = "향수 이름, 브랜드, 향기 등으로 찾기"
-                        placeholderTextColor = '#9E9E9E'
-                        onChangeText = {(e) => console.log(e)}
-                        onSubmitEditting = {(e) => console.log("Submit !")}
+                    <TextInput
+                        style = {
+                            {
+                                // borderWidth: 1,
+                                height: "100%",
+                                minWidth: "30%"
+                            }
+                        }
+                        value={searchWord}
+                        onChangeText={(e) => setSearchWord(e)}
+                        
+                        // TODO
+                        autoCapitalize="sentences"
+                        autoCorrect
+
+                        onSubmitEditing={() => {
+                            storeRecentSearchWord(searchWord)
+                            console.log("Submit !")
+                            var temp = getRecentSearchWord()
+                            console.log(temp)
+                            }
+                        }
                     />
-                    {/* <SearchBarInnerText>
-                        향수 이름, 브랜드, 향기 등으로 찾기
-                    </SearchBarInnerText> */}
+
                 </SearchBar>
             </SearchBarView>
 
             <ScrollView>
-                <RecentSearchKeywordView>
+                <RecentSearchWordView>
 
-                    <RecentSearchKeywordViewTitle>
+                    <RecentSearchWordViewTitle>
                         최근 검색어
-                    </RecentSearchKeywordViewTitle>
+                    </RecentSearchWordViewTitle>
                     {
                         tempRecentKeywordData.map((v, i) => (
-                            <RecentSearchKeywordBtn
+                            <RecentSearchWordBtn
                                 key={i}
                             >
-                                <RecentSearchKeyword>
+                                <RecentSearchWord>
                                     {v}
-                                </RecentSearchKeyword>
+                                </RecentSearchWord>
 
-                                <RecentSearchKeyworDeletedBtn>
-                                    <RecentSearchKeyword
+                                <RecentSearchWordeletedBtn>
+                                    <RecentSearchWord
                                         onPress={() => console.log("Delete it !")}
                                     >
                                         X
-                                    </RecentSearchKeyword>
-                                </RecentSearchKeyworDeletedBtn>
+                                    </RecentSearchWord>
+                                </RecentSearchWordeletedBtn>
 
-                            </RecentSearchKeywordBtn>
+                            </RecentSearchWordBtn>
                         ))
                     }
-                </RecentSearchKeywordView>
+                </RecentSearchWordView>
 
                 <RecommendationTagView>
                     <RecommendationTagViewTitle>
@@ -138,23 +157,23 @@ const SearchBarInnerText = styled.Text`
 const BackArrowBtn = styled.TouchableOpacity`
 `;
 
-const RecentSearchKeywordView = styled.View`
+const RecentSearchWordView = styled.View`
 `;
 
-const RecentSearchKeywordViewTitle = styled.Text`
+const RecentSearchWordViewTitle = styled.Text`
     font-size: 18px;
     font-weight: 500;
     margin-top: 30px;
     margin-left: 22px;
 `;
 
-const RecentSearchKeyword = styled.Text`
+const RecentSearchWord = styled.Text`
     font-size: 16px;
     color: #666666;
 `;
 
 // TODO Button -> Btn
-const RecentSearchKeywordBtn = styled.TouchableOpacity`
+const RecentSearchWordBtn = styled.TouchableOpacity`
     margin-top: 15px;
     margin-left: 22px;
     margin-right: 22px;
@@ -163,7 +182,7 @@ const RecentSearchKeywordBtn = styled.TouchableOpacity`
     justify-content: space-between;
 `;
 
-const RecentSearchKeyworDeletedBtn = styled.TouchableOpacity`
+const RecentSearchWordeletedBtn = styled.TouchableOpacity`
 `;
 
 const RecommendationTagView = styled.View`
