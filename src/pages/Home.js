@@ -8,6 +8,7 @@ import FavoriteFalse from '../components/icons/FavoriteFalse.svg';
 import FavoriteTrue from '../components/icons/FavoriteTrue.svg';
 
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 import { useRecoilValue } from "recoil";
 import { userNickname } from "../store/store";
 
@@ -17,6 +18,7 @@ function Home({ navigation, route }) {
     const windowWidth = Dimensions.get('window').width;
     const windowHeight = Dimensions.get('window').height;
 
+    const [imageUrl, setImageUrl] = useState();
     const [favoriteSelectedList, setFavoriteSelectedList] = useState([false, false, false])
 
     const [favoriteSelectedFirst, setFavoriteSelectedFirst] = useState(false);
@@ -35,10 +37,24 @@ function Home({ navigation, route }) {
     const zeroToTenArr = [...Array(10)].map((_, i) => i + 1);
 
     useEffect(() => {
-        console.log("route is ")
-        console.log(route)
+        console.log(storedUserNickname)
     }, [])
 
+    useEffect(() => {
+
+    }, [])
+
+    useEffect(() => {
+        storage()
+            .ref('/Products/조 말론 피오니 앤 블러쉬 스웨이드 코롱(2).jpeg') //name in storage in firebase console
+            .getDownloadURL()
+            .then((url) => {
+                setImageUrl(url);
+            })
+            .catch((e) => console.log('Errors while downloading => ', e));
+
+        console.log(imageUrl)
+    }, [])
 
     return (
         <SafeAreaView>
@@ -81,9 +97,14 @@ function Home({ navigation, route }) {
 
                         <RecommendedPerfume>
 
-                            <PerfumeImg>
+                            {/* <PerfumeImg> */}
+                            <Image
+                                style={{ width: 68, height: 68, borderRadius: 5 }}
+                                source={{ url: imageUrl }}
+                                resizeMode="cover"
 
-                            </PerfumeImg>
+                            />
+                            {/* </PerfumeImg> */}
                             <PerfumeInfoView
                             // TODO
                             >
