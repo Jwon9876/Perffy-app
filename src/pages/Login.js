@@ -12,6 +12,7 @@ import KakaoSDK from '@actbase/react-kakaosdk';
 import firestore from '@react-native-firebase/firestore';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { userNickname, userId } from '../store/store';
+import { getData } from '../asyncStorage/AsyncStorage';
 
 
 
@@ -47,6 +48,7 @@ function Login({navigation}) {
             const tokens = await KakaoSDK.login();
             console.log("토큰 시작")
             console.log(tokens);
+            console.log("access token is" + tokens.access_token)
 
             // DB에 KAKAO 표시 붙이기
 
@@ -67,9 +69,7 @@ function Login({navigation}) {
             console.log(e);
         }
     }
-
-
-
+    
     const googleSigninConfigure = () => {
         GoogleSignin.configure({
             webClientId:

@@ -46,7 +46,8 @@ function Home({ navigation, route }) {
 
     useEffect(() => {
         storage()
-            .ref('/Products/조 말론 피오니 앤 블러쉬 스웨이드 코롱(2).jpeg') //name in storage in firebase console
+            // .ref('/Products/조 말론 피오니 앤 블러쉬 스웨이드 코롱(2).jpeg') //name in storage in firebase console
+            .ref('/Products/test.jpeg')
             .getDownloadURL()
             .then((url) => {
                 setImageUrl(url);
@@ -100,9 +101,7 @@ function Home({ navigation, route }) {
                             {/* <PerfumeImg> */}
                             <Image
                                 style={{ width: 68, height: 68, borderRadius: 5 }}
-                                source={{ url: imageUrl }}
-                                resizeMode="cover"
-
+                                source={{ uri: imageUrl }}
                             />
                             {/* </PerfumeImg> */}
                             <PerfumeInfoView
