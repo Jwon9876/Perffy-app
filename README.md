@@ -8,12 +8,21 @@
     react-dom: 17.0.2
     react-native: 0.68.2
 ```
-    
 ## iOS
 
 ```npx react-native run-ios```
 
 ## Android
 
-```npx react-native run-android```
+### dev
+```
+    yarn android-clean
+    yarn android-dev
+```
+
+### prd
+```
+    yarn android-clean
+    yarn android-prd
+```
 
