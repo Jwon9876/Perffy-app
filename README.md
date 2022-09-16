@@ -10,7 +10,7 @@
 ```
 ## iOS
 
-```npx react-native run-ios```
+```https://medium.com/@gregoire.frileux/how-to-manage-multiple-environments-dev-staging-prod-for-firebase-with-react-native-app-205c7c1a5e35```
 
 ## Android
 
