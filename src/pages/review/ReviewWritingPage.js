@@ -1,8 +1,14 @@
-import react from "react";
+import react, { useCallback, useState } from "react";
 
-import { Text, Alert } from "react-native";
+import { Text, Alert, Image, TextInput } from "react-native";
 
 import styled from "styled-components";
+
+import searchIcon from '../../components/icons/searchIcon.png'
+
+import { AlertModal } from "../../components/AlertModal";
+
+
 
 function ReviewWritingPage({ navigation }) {
 
@@ -15,47 +21,104 @@ function ReviewWritingPage({ navigation }) {
         navigation.goBack()
     }
 
+    const [modal, setModal] = useState(false)
+    const setModalVisible = (visible) => {
+        setModal(visible)
+    }
     return (
-        <SafeAreaView>
-            <HeaderView>
-                <CloseBtn
-                    onPress={() => navigation.goBack()}
-                >
+        <>
+            <SafeAreaView>
+                <HeaderView>
+                    <CloseBtn
+                        onPress={() => navigation.goBack()}
+                    >
+                        <Text
+                            style={{
+                                color: '#9E9E9E'
+                            }}
+                        >
+                            X
+                        </Text>
+                    </CloseBtn>
+                    <HeaderText>
+                        리뷰 쓰기
+                    </HeaderText>
+
+                    <CompleteBtn
+                        onPress={() =>
+                            setModalVisible(true)
+                            // uploadReview()
+                        }
+                    >
+                        <Text
+                            style={{
+                                color: '#5ABACA',
+                                fontWeight: 'bold'
+                            }}
+                        >
+                            완료
+                        </Text>
+                    </CompleteBtn>
+                </HeaderView>
+                <ScrollView>
+                    <SearchBarView>
+                        <SearchBar>
+                            <Image
+                                style={{ marginRight: 5 }}
+                                source={searchIcon}
+                            />
+                            <TextInput
+                                style={{ minWidth: 30, minHeight: "100%" }}
+                                placeholder="향수 이름 검색"
+                            />
+                        </SearchBar>
+                    </SearchBarView>
+
                     <Text
                         style={{
-                            color: '#9E9E9E'
+                            fontSize: 150
                         }}
                     >
-                        X
+                        별점 주기
                     </Text>
-                </CloseBtn>
-                <HeaderText>
-                    리뷰 쓰기
-                </HeaderText>
 
-                <CompleteBtn
-                    onPress={() => uploadReview()}
-                >
                     <Text
+
                         style={{
-                            color: '#5ABACA',
-                            fontWeight: 'bold'
-                        }}
-                    >
-                        완료
+                            fontSize: 150
+                        }}>
+                        사진 등록하기
                     </Text>
-                </CompleteBtn>
-            </HeaderView>
-            <ScrollView>
 
-                <SearchBarView>
-                    <SearchBar>
-                        <SearchTextInput/>
-                    </SearchBar>
-                </SearchBarView>
+                    <Text
 
-            </ScrollView>
-        </SafeAreaView >
+                        style={{
+                            fontSize: 150
+                        }}>
+                        태그 추가하기
+                    </Text>
+
+                    <Text
+
+                        style={{
+                            fontSize: 150
+                        }}>
+                        사용후기
+                    </Text>
+                    <AlertModal
+                        modalVisible={modal}
+                        setModalVisible={setModalVisible}
+                    >
+                    </AlertModal>
+                </ScrollView>
+                <AlertModal
+                modalVisible={modal}
+                setModalVisible={setModalVisible}
+            >
+            </AlertModal>
+            </SafeAreaView >
+
+        </>
     )
 }
 
@@ -87,7 +150,8 @@ const SearchBarView = styled.View`
     padding-top: 15px;
 `;
 
-const SearchTextInput = styled.TextInput` 
+const SearchTextInput = styled.TextInput`
+
 `;
 
 const SearchBar = styled.View`
