@@ -7,16 +7,52 @@ import { WithLocalSvg } from "react-native-svg";
 import BackArrowIcon from '../components/icons/BackArrowIcon.svg'
 
 import searchIcon from '../components/icons/searchIcon.png'
+import TextInputClearIcon from '../components/icons/TextInputClearIcon.png'
 
-import { storeRecentSearchWord, getRecentSearchWord } from "../AsyncStorage/AsyncStorage";
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
+
+import { storeRecentSearchWord, getRecentSearchWord } from "../asyncStorage/AsyncStorage";
 
 
 function SearchPage({ navigation }) {
 
     const tempRecentKeywordData = ["조말론", "딥디크", "바이레도"];
     const tempRecommnadationTagData = ["#비 오는 날", "#여름", "#겨울", "#데이트"];
+    const tempKeyValueData = [
+        { "_data": { "ImageName": "WoodSageSeaSaltCologne", "ProductName": "조 말론 런던 우드 세이지 앤 씨 솔트 코롱", "ProductType": "오리엔탈" } },
+        { "_data": { "ImageName": "PeonyBlushSuedeCologne", "ProductName": "조 말론 런던 피오니 앤 블러시 스웨이드", "ProductType": "레드애플" } }
+    ]
 
     const [searchWord, setSearchWord] = useState("")
+
+    const [searchResultList, setSearchResultList] = useState([]);
+    const [searchResultImageList, setSearchResultImageList] = useState([]);
+
+    async function getSearchResultList(word) {
+
+        try {
+            const db = firestore().collection('Products');
+            const docs = await db.where('ProductName', '>=', word).where('ProductName', '<=', word + '~').get();
+            // console.log(docs._docs)
+            setSearchResultList(docs._docs)
+            // return docs._docs
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
+
+    async function getProductUrl(productName) {
+        // console.log(productName)
+        await storage().ref(`Products/${productName}.jpeg`).getDownloadURL()
+            .then((url) => {
+                // console.log(url)
+                return url
+            })
+            .catch((e) => console.log('Errors while downloading => ', e));
+    }
+
 
     return (
 
@@ -38,78 +74,178 @@ function SearchPage({ navigation }) {
                         source={searchIcon}
                     />
                     <TextInput
-                        style = {
+                        style={
                             {
                                 // borderWidth: 1,
                                 height: "100%",
-                                minWidth: "30%"
+                                width: "95%"
                             }
                         }
                         value={searchWord}
-                        onChangeText={(e) => setSearchWord(e)}
-                        
+                        onChangeText={async (e) => {
+                            setSearchWord(e)
+                            getSearchResultList(e)
+                        }
+                        }
+
                         // TODO
                         autoCapitalize="sentences"
                         autoCorrect
 
                         onSubmitEditing={() => {
-                            storeRecentSearchWord(searchWord)
+                            // TODO
+                            // storeRecentSearchWord(searchWord)
                             console.log("Submit !")
-                            var temp = getRecentSearchWord()
-                            console.log(temp)
-                            }
+
+                            // TODO
+                            // var temp = getRecentSearchWord()
+                            // console.log(temp)
+                        }
                         }
                     />
-
+                    {
+                        (
+                            searchWord.length == 0
+                        ) ? (
+                            <></>
+                        ) : (
+                            <TextInputClearBtn
+                                onPress={() => setSearchWord("")}
+                            >
+                                <Image
+                                    style={{ width: 18, height: 18 }}
+                                    source={TextInputClearIcon}
+                                />
+                            </TextInputClearBtn>
+                        )
+                    }
                 </SearchBar>
             </SearchBarView>
 
             <ScrollView>
-                <RecentSearchWordView>
+                {
+                    (
+                        searchWord.length == 0
+                    ) ? (
+                        <>
+                            <RecentSearchWordView>
+                                <RecentSearchWordViewTitle>
+                                    최근 검색어
+                                </RecentSearchWordViewTitle>
+                                {
+                                    tempRecentKeywordData.map((v, i) => (
+                                        <RecentSearchWordBtn
+                                            key={i}
+                                        >
+                                            <RecentSearchWord>
+                                                {v}
+                                            </RecentSearchWord>
 
-                    <RecentSearchWordViewTitle>
-                        최근 검색어
-                    </RecentSearchWordViewTitle>
-                    {
-                        tempRecentKeywordData.map((v, i) => (
-                            <RecentSearchWordBtn
-                                key={i}
+                                            <RecentSearchWordeletedBtn>
+                                                <RecentSearchWord
+                                                    onPress={() => console.log("Delete it !")}
+                                                >
+                                                    X
+                                                </RecentSearchWord>
+                                            </RecentSearchWordeletedBtn>
+
+                                        </RecentSearchWordBtn>
+                                    ))
+                                }
+                            </RecentSearchWordView>
+
+                            <RecommendationTagView>
+                                <RecommendationTagViewTitle>
+                                    추천 태그
+                                </RecommendationTagViewTitle>
+                                <RecommendationEnumView>
+                                    {
+                                        tempRecommnadationTagData.map((v, i) => (
+                                            <RecommendationTagBtn
+                                                key={i}
+                                            >
+                                                <RecommendationTag>
+                                                    {v}
+                                                </RecommendationTag>
+                                            </RecommendationTagBtn>
+                                        ))
+                                    }
+                                </RecommendationEnumView>
+                            </RecommendationTagView>
+                        </>
+
+                    ) : (
+                        <>
+                            <FilterView
+                                horizontal={true}
+                                contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}
+                                style={{ height: 40 }}
                             >
-                                <RecentSearchWord>
-                                    {v}
-                                </RecentSearchWord>
-
-                                <RecentSearchWordeletedBtn>
-                                    <RecentSearchWord
-                                        onPress={() => console.log("Delete it !")}
-                                    >
-                                        X
-                                    </RecentSearchWord>
-                                </RecentSearchWordeletedBtn>
-
-                            </RecentSearchWordBtn>
-                        ))
-                    }
-                </RecentSearchWordView>
-
-                <RecommendationTagView>
-                    <RecommendationTagViewTitle>
-                        추천 태그
-                    </RecommendationTagViewTitle>
-                    <RecommendationEnumView>
-                        {
-                            tempRecommnadationTagData.map((v, i) => (
-                                <RecommendationTagBtn
-                                    key={i}
+                                <FilterBtn
+                                    onPress = {() => console.log("456")}
                                 >
-                                    <RecommendationTag>
-                                        {v}
-                                    </RecommendationTag>
-                                </RecommendationTagBtn>
-                            ))
-                        }
-                    </RecommendationEnumView>
-                </RecommendationTagView>
+                                    <FilterBtnText>
+                                        가격
+                                    </FilterBtnText>
+                                </FilterBtn>
+
+                                <FilterBtn
+                                    onPress = {() => console.log("456")}
+                                >
+                                    <FilterBtnText>
+                                        계절
+                                    </FilterBtnText>
+                                </FilterBtn>
+
+                                <FilterBtn
+                                    onPress = {() => console.log("456")}
+                                >
+                                    <FilterBtnText>
+                                        지속력
+                                    </FilterBtnText>
+                                </FilterBtn>
+
+                                <FilterBtn
+                                    onPress = {() => console.log("456")}
+                                >
+                                    <FilterBtnText>
+                                        향
+                                    </FilterBtnText>
+                                </FilterBtn>
+                            </FilterView>
+
+
+                            {
+                                (
+                                    searchResultList.length == 0
+                                ) ? (
+                                    <>
+                                        <SearchResultCell 
+                                            disabled={true}
+                                        >
+                                            <Text>
+                                                검색 결과가 없습니다.
+                                            </Text>
+                                        </SearchResultCell>
+                                    </>
+                                ) : (
+                                    searchResultList.map((v, i) =>
+                                        <>
+                                            {
+                                                console.log("456")
+                                            }
+                                            <SearchResultCell key={i}>
+                                                <Text>
+                                                    {v._data.ProductName}
+                                                </Text>
+                                            </SearchResultCell>
+                                        </>
+                                    )
+                                )
+                            }
+                        </>
+                    )
+                }
             </ScrollView>
         </SafeAreaView>
     )
@@ -133,7 +269,7 @@ const SearchBarView = styled.View`
 `;
 
 const SearchBar = styled.View`
-    width: 85%;
+    width: 81%;
     height: 42px;
     /* border: 1px solid; */
     /* justify-content: center; */
@@ -145,13 +281,16 @@ const SearchBar = styled.View`
     padding-right: 30px;
 `;
 
-const SearchTextInput = styled.TextInput`
-    
+const SearchTextInput = styled.TextInput`  
 `;
 
 const SearchBarInnerText = styled.Text`
     font-size: 14px;
     font-weight: 500;
+`;
+
+const TextInputClearBtn = styled.TouchableOpacity`
+
 `;
 
 const BackArrowBtn = styled.TouchableOpacity`
@@ -217,8 +356,33 @@ const RecommendationTagBtn = styled.TouchableOpacity`
     border-radius: 16px;
     margin-right: 7px;
     align-items: center;
-    justify-content: center;
-    
+    justify-content: center;  
 `;
+
+const FilterView = styled.ScrollView`
+`;
+
+const FilterBtn = styled.TouchableOpacity`
+    align-items: center;
+    justify-content: center;  
+    border: 1px;
+    margin-left: 5px;
+    width: auto;
+    min-width: 50px;
+    height: 32px;
+    padding: 5px;
+    border-radius: 16px;
+    border-color: #5ABACA;
+`;
+
+const FilterBtnText = styled.Text`
+    font-size: 14px;
+    font-weight: 500;
+    color: #5ABACA;
+`;
+
+const SearchResultCell = styled.TouchableOpacity`
+    
+`
 
 export default SearchPage; 
