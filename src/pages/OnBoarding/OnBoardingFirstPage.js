@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { Image } from "react-native";
 
 
 import styled from 'styled-components';
 import SelectDropdown from 'react-native-select-dropdown'
 import { Alert, TouchableOpacity } from "react-native";
+
+import { launchImageLibrary } from 'react-native-image-picker';
 
 import firestore from '@react-native-firebase/firestore';
 import { useRecoilValue, useRecoilState } from 'recoil';
@@ -21,7 +24,8 @@ function OnBoardingFirstPage({ navigation }) {
         sex: selectedSex,
         age: selectedAge,
         nickname: nickname,
-        userId: storedUserId
+        userId: storedUserId,
+        userProfilePic: userProfilePic
     })
 
     const sex = ["남성", "여성"];
@@ -33,6 +37,8 @@ function OnBoardingFirstPage({ navigation }) {
 
     const [nickname, setNickname] = useState("");
     const [nicknameRedundancy, setNicknameRedundancy] = useState(false);
+
+    const [userProfilePic, setUserProfilePic] = useState("");
 
     const nicknameRedundancyCheckEnalbleStyle = {
         height: 33,
@@ -66,6 +72,12 @@ function OnBoardingFirstPage({ navigation }) {
 
 
     function validationCheck({ selectedSex, selectedAge, nickname }) {
+
+        // TODO
+        // 특수문자 제외
+        // 공백 제외
+
+
         if (selectedSex == "") {
             Alert.alert("성별을 입력해주세요.");
         } else if (selectedAge == "") {
@@ -97,14 +109,30 @@ function OnBoardingFirstPage({ navigation }) {
         });
     }
 
+    const ShowPicker = () => {
+          launchImageLibrary({}, (res)=>{
+            try{
+                console.log(res.assets[0].uri)
+                setUserProfilePic(res.assets[0].uri)
+                const formdata = new FormData()
+                formdata.append('file', res.assets[0].uri);
+                console.log(res);
+            } catch{
+                console.log("not selected")
+            }
+
+          })
+      }
+
     useEffect(() => {
         setUserInformation({
             sex: selectedSex,
             age: selectedAge,
             nickname: nickname,
-            userId: storedUserId
+            userId: storedUserId,
+            userProfilePic: userProfilePic
         })
-    }, [selectedSex, selectedAge, nickname]);
+    }, [selectedSex, selectedAge, nickname, userProfilePic]);
 
     return (
         <SafeAreaView>
@@ -252,13 +280,33 @@ function OnBoardingFirstPage({ navigation }) {
                     필수 선택사항이 아니며, 기본 프로필 사진이 등록됩니다.
                 </DescriptionText>
 
-                <AddProfileImg>
-                    <Add>
-                        <PlusY></PlusY>
-                        <PlusX></PlusX>
-                        <PlusY></PlusY>
+                <AddProfileImg
+                    onPress = {() => ShowPicker()}
+                >
+                    {
+                        (
+                            userProfilePic == ""
+                        ) ? (
+                            <Add>
+                                <PlusY></PlusY>
+                                <PlusX></PlusX>
+                                <PlusY></PlusY>
+                            </Add>
+                        ) : (
+                            <Image
+                                style={{ width: 108, height: 108, borderRadius: 54}}
+                                source={{uri: userProfilePic}}
+                            />
+                        )
+                    }
 
-                    </Add>
+
+
+                    {/* 
+                    
+                    */}
+
+
                 </AddProfileImg>
             </ContentView>
 

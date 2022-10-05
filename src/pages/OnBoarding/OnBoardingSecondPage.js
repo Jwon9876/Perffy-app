@@ -1,9 +1,13 @@
 import React, { useState } from "react";
+
 import { Alert, Image, Text } from "react-native";
 
 import styled from "styled-components";
 
+import dayjs from "dayjs"
+
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 import Woody from '../../components/icons/Woody.png'
 import Citrus from '../../components/icons/Citrus.png'
@@ -15,7 +19,7 @@ import Aqua from '../../components/icons/Aqua.png'
 import Oriental from '../../components/icons/Oriental.png'
 
 import { useRecoilValue } from 'recoil';
-import { userId } from "../../store/store"
+import { userId, logInType } from "../../store/store"
 
 
 function OnBoardingSecondPage({ navigation, route }) {
@@ -23,8 +27,16 @@ function OnBoardingSecondPage({ navigation, route }) {
     const sex = route.params.userInformation["sex"]
     const age = route.params.userInformation["age"]
     const nickname = route.params.userInformation["nickname"]
+    const userProfilePic = route.params.userInformation["userProfilePic"]
     const id = useRecoilValue(userId)
+    const clickedLogInType = useRecoilValue(logInType)
 
+
+    {/*
+        관심 향수 선택할 때, 애초에 눈에 안보이는 border를 그어놓고,
+        선택되면 색만 바뀌게 하기 =
+    */}
+    
 
     const perfumeTag = ["우디", "시트러스", "머스크", "레더", "플로럴", "그린", "아쿠아", "오리엔탈"];
     const perfumeTagImage = [Woody, Citrus, Musk, Leather, Floral, Green, Aqua, Oriental]
@@ -52,6 +64,8 @@ function OnBoardingSecondPage({ navigation, route }) {
     }
 
     const notPressdTagStyle = {
+        borderWidth: 1.5,
+        borderColor: '#FFFFFF',
     }
 
     const pressdTextStyle = {
@@ -98,13 +112,19 @@ function OnBoardingSecondPage({ navigation, route }) {
                 userNickname: nickname,
                 interest: selectedTagList,
                 id: id,
-                signInType: 'kakao'
+                logInType: clickedLogInType,
             })
             .then(() => {
                 console.log('Review registered!');
 
                 navigation.replace('BottomTabBar')
             });
+    }
+
+    async function uploadUserProfilePic(){
+        const reference = storage().ref('black-t-shirt-sm.png');
+        const pathToFile = `${utils.FilePath.PICTURES_DIRECTORY}/black-t-shirt-sm.png`;
+        await reference.putFile(pathToFile);
     }
 
     function validationCheck() {
@@ -116,9 +136,6 @@ function OnBoardingSecondPage({ navigation, route }) {
             submitUserInfo()
         }
     }
-
-
-
 
 
     return (
@@ -158,7 +175,7 @@ function OnBoardingSecondPage({ navigation, route }) {
                                 >
 
                                     <Image
-                                        style={{ margin: 1, width: 100, height: 100 }}
+                                        style={{width: 100, height: 100 }}
                                         source={perfumeTagImage[i]}
                                     />
                                 </PerfumeTag>
