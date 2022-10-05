@@ -15,6 +15,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import SplashPage from './pages/SplashPage';
+
 import Login from './pages/Login'
 
 import OnBoardingFirstPage from './pages/OnBoarding/OnBoardingFirstPage';
@@ -151,6 +153,7 @@ export default function App() {
         <RecoilRoot>
             <NavigationContainer>
                 <Stack.Navigator>
+                    <Stack.Screen name="SplashPage" component={SplashPage} options={{ headerShown: false }} />
                     <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
                     <Stack.Screen name="OnBoarding" component={OnBoardingStack} options = {{headerShown: false}}/>
                     <Stack.Screen name="BottomTabBar" component={BottomTabBar} options={{ headerShown: false }} />
