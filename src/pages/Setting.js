@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Text, Image } from 'react-native';
+import { Text, Image, Alert } from 'react-native';
 
 import styled from 'styled-components';
 
@@ -13,7 +13,32 @@ import QnAIcon from '../components/icons/Setting/QnAIcon.png';
 import LogOutIcon from '../components/icons/Setting/LogOutIcon.png';
 import DeleteAccountIcon from '../components/icons/Setting/DeleteAccountIcon.png';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { storeRefreshToken } from '../asyncStorage/AsyncStorage';
+
 function Setting({ navigation }) {
+
+
+    const deleteNotice=()=>{
+        Alert.alert(
+            "로그아웃",
+            "로그아웃 하시겠습니까?",
+            [
+              { 
+                text: "로그아웃",
+                onPress: () => { 
+                    AsyncStorage.removeItem('refreshToken');
+                    navigation.replace('Login')
+                    } 
+                },
+              {
+                text: "취소",
+                onPress: () => console.log("취소")
+              }
+            ]
+        );
+    }
+
     return (
         <SafeAreaView>
             <HeaderView>
@@ -40,46 +65,50 @@ function Setting({ navigation }) {
             <ScrollView>
 
                 {/* TO REMOVE */}
+
+                {/*  TODO fony size 14 */}
                 <Cell>
                     <Image style={{ width: 20, height: 20 }} source={MyReviewIcon}/>
-                    <Text style = {{fontSize: 14, fontWeight: '500', marginLeft: 10}}> 내 리뷰 </Text>
+                    <Text style = {{fontSize: 16, fontWeight: '500', marginLeft: 10}}> 내 리뷰 </Text>
                 </Cell>
 
                 <Cell>
                     <Image style={{ width: 20, height: 20 }} source={FavoritePerfumeIcon}/>
-                    <Text style = {{fontSize: 14, fontWeight: '500', marginLeft: 10}}> 찜한 향수 </Text>
+                    <Text style = {{fontSize: 16, fontWeight: '500', marginLeft: 10}}> 찜한 향수 </Text>
                 </Cell>
 
                 <Cell>
                     <Image style={{ width: 20, height: 20 }} source={EditInterestIcon}/>
-                    <Text style = {{fontSize: 14, fontWeight: '500', marginLeft: 10}}> 관심 향기 설정 </Text>
+                    <Text style = {{fontSize: 16, fontWeight: '500', marginLeft: 10}}> 관심 향기 설정 </Text>
                 </Cell>
 
                 <Cell>
                     <Image style={{ width: 20, height: 20 }} source={EditProfileIcon}/>
-                    <Text style = {{fontSize: 14, fontWeight: '500', marginLeft: 10}}> 프로필 수정 </Text>
+                    <Text style = {{fontSize: 16, fontWeight: '500', marginLeft: 10}}> 프로필 수정 </Text>
                 </Cell>
 
                 <HrBar></HrBar>
 
                 <Cell>
                     <Image style={{ width: 20, height: 20 }} source={AppSettingIcon}/>
-                    <Text style = {{fontSize: 14, fontWeight: '500', marginLeft: 10}}> 앱 설정 </Text>
+                    <Text style = {{fontSize: 16, fontWeight: '500', marginLeft: 10}}> 앱 설정 </Text>
                 </Cell>
 
                 <Cell>
                     <Image style={{ width: 20, height: 20 }} source={QnAIcon}/>
-                    <Text style = {{fontSize: 14, fontWeight: '500', marginLeft: 10}}> 문의하기 </Text>
+                    <Text style = {{fontSize: 16, fontWeight: '500', marginLeft: 10}}> 문의하기 </Text>
                 </Cell>
 
-                <Cell>
+                <Cell
+                    onPress = {() => deleteNotice() }
+                >
                     <Image style={{ width: 20, height: 20 }} source={LogOutIcon}/>
-                    <Text style = {{fontSize: 14, fontWeight: '500', marginLeft: 10}}> 로그아웃 </Text>
+                    <Text style = {{fontSize: 16, fontWeight: '500', marginLeft: 10}}> 로그아웃 </Text>
                 </Cell>
 
                 <Cell>
                     <Image style={{ width: 20, height: 20 }} source={DeleteAccountIcon}/>
-                    <Text style = {{fontSize: 14, fontWeight: '500', marginLeft: 10}}> 계정 삭제 </Text>
+                    <Text style = {{fontSize: 16, fontWeight: '500', marginLeft: 10}}> 계정 삭제 </Text>
                 </Cell>
 
             </ScrollView>
