@@ -19,6 +19,48 @@ export const getData = async () => {
     }
 }
 
+
+export const storeRefreshToken = async (value) => {
+    try {
+        await AsyncStorage.setItem('refreshToken', value)
+    } catch (e) {
+        // saving error
+    }
+}
+
+export const getRefreshToken = async () => {
+    try {
+        const value = await AsyncStorage.getItem('refreshToken')
+        if (value !== null) {
+            return value
+        } else{
+            console.log("454687451323548946845000000")
+            return "notExists"
+        }
+    } catch (e) {
+        // error reading value
+    }
+}
+
+export const storeUserId = async (value) => {
+    try {
+        await AsyncStorage.setItem('userId', value)
+    } catch (e) {
+        // saving error
+    }
+}
+
+export const getUserId = async () => {
+    try {
+        const value = await AsyncStorage.getItem('userId')
+        if (value !== null) {
+            return value
+        }
+    } catch (e) {
+        // error reading value
+    }
+}
+
 export const storeObjectData = async (value) => {
     try {
         const jsonValue = JSON.stringify(value)
@@ -37,19 +79,15 @@ export const getObjectData = async () => {
     }
 }
 
-export const storeRecentSearchKeyword = async (value) => {
+export const storeRecentSearchWord = async (value) => {
     try {
-        const getJsonValue = await AsyncStorage.getItem('RecentSearchKeywordKey')
-        if(getJsonValue != null){
-            const jsonValue = JSON.stringify(value)
-            await AsyncStorage.setItem('RecentSearchKeywordKey', jsonValue)
-        }
+        await AsyncStorage.setItem('RecentSearchKeywordKey', value)
     } catch (e){
         console.log(e)
     }
 }
 
-export const getRecentSearchKeyword = async () => {
+export const getRecentSearchWord = async () => {
     try {
         const jsonValue = await AsyncStorage.getItem('RecentSearchKeywordKey')
         return jsonValue != null ? JSON.parse(jsonValue) : null;
