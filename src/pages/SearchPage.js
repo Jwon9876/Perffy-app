@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, Text, Dimensions, TextInput } from 'react-native';
 
 import styled from 'styled-components';
@@ -11,6 +11,8 @@ import TextInputClearIcon from '../components/icons/TextInputClearIcon.png'
 
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
+
+import ExampleStarRating from '/Users/choejuwon/Documents/GitHub/Perffy-app/src/components/icons/ExampleStarRating.png';
 
 import { storeRecentSearchWord, getRecentSearchWord } from "../asyncStorage/AsyncStorage";
 
@@ -27,7 +29,8 @@ function SearchPage({ navigation }) {
     const [searchWord, setSearchWord] = useState("")
 
     const [searchResultList, setSearchResultList] = useState([]);
-    const [searchResultImageList, setSearchResultImageList] = useState([]);
+    const [searchResultImageNameList, setSearchResultImageNameList] = useState([]);
+    const [searchResultImageUrlList, setSearchResultImageUrlList] = useState([]);
 
     async function getSearchResultList(word) {
 
@@ -43,15 +46,41 @@ function SearchPage({ navigation }) {
         }
     }
 
-    async function getProductUrl(productName) {
-        // console.log(productName)
-        await storage().ref(`Products/${productName}.jpeg`).getDownloadURL()
-            .then((url) => {
-                // console.log(url)
-                return url
+
+    const getProductImageUrl = async () => {
+
+        let temp = []
+
+        for (let ImageName of searchResultImageNameList) {
+            await storage().ref(`/Products/${ImageName}.jpeg`).getDownloadURL().then((url) => {
+                temp.push(url)
             })
-            .catch((e) => console.log('Errors while downloading => ', e));
+        }
+
+        setSearchResultImageUrlList(temp)
     }
+
+
+
+    // TODO : rename
+    const getSampleImage = async () => {
+        let imageNameList = []
+
+        searchResultList.map((v, i, a) => {
+            imageNameList.push(v._data.ImageName)
+        })
+
+        setSearchResultImageNameList(imageNameList)
+    }
+
+    useEffect(() => {
+        getSampleImage()
+        getProductImageUrl()
+    }, [searchResultList])
+
+    useEffect(() => {
+        console.log(searchResultImageUrlList)
+    }, [searchResultImageUrlList])
 
 
     return (
@@ -182,7 +211,7 @@ function SearchPage({ navigation }) {
                                 style={{ height: 40 }}
                             >
                                 <FilterBtn
-                                    onPress = {() => console.log("456")}
+                                    onPress={() => console.log("456")}
                                 >
                                     <FilterBtnText>
                                         가격
@@ -190,7 +219,7 @@ function SearchPage({ navigation }) {
                                 </FilterBtn>
 
                                 <FilterBtn
-                                    onPress = {() => console.log("456")}
+                                    onPress={() => console.log("456")}
                                 >
                                     <FilterBtnText>
                                         계절
@@ -198,7 +227,7 @@ function SearchPage({ navigation }) {
                                 </FilterBtn>
 
                                 <FilterBtn
-                                    onPress = {() => console.log("456")}
+                                    onPress={() => console.log("456")}
                                 >
                                     <FilterBtnText>
                                         지속력
@@ -206,7 +235,7 @@ function SearchPage({ navigation }) {
                                 </FilterBtn>
 
                                 <FilterBtn
-                                    onPress = {() => console.log("456")}
+                                    onPress={() => console.log("456")}
                                 >
                                     <FilterBtnText>
                                         향
@@ -220,7 +249,7 @@ function SearchPage({ navigation }) {
                                     searchResultList.length == 0
                                 ) ? (
                                     <>
-                                        <SearchResultCell 
+                                        <SearchResultCell
                                             disabled={true}
                                         >
                                             <Text>
@@ -231,15 +260,49 @@ function SearchPage({ navigation }) {
                                 ) : (
                                     searchResultList.map((v, i) =>
                                         <>
-                                            {
-                                                console.log("456")
-                                            }
-                                            <SearchResultCell key={i}>
-                                                <Text>
-                                                    {v._data.ProductName}
-                                                </Text>
+                                            <SearchResultCell
+                                                onPress = {() => (navigation.navigate('ProductPage', 
+                                                    {
+                                                        ProductName: v._data.ProductName,
+                                                        ProductImgUrl: searchResultImageUrlList[i]
+                                                    }
+                                                    ))
+                                                }
+                                            >
+                                                <Image
+                                                    style={{ width: 100, height: 100, borderRadius: 5, resizeMode: 'contain' }}
+                                                    source={{ uri: searchResultImageUrlList[i] }}
+                                                />
+                                                <SearchResultProductInfoView>
+                                                    <Text
+                                                        style={{
+                                                            marginTop: 10,
+                                                            fontSize: 12,
+                                                            fontWeight: '500',
+                                                            color: '#9E9E9E'
+                                                        }}
+                                                    >
+                                                        {v._data.BrandName}
+                                                    </Text>
+
+                                                    <Text
+                                                        style={{
+                                                            marginTop: 5,
+                                                            fontSize: 14,
+                                                            fontWeight: '500',
+                                                            color: '#212121'
+                                                        }}
+                                                    >
+                                                        {v._data.ProductName}
+                                                    </Text>
+                                                    <Image
+                                                        source={ExampleStarRating}
+                                                    />
+                                                </SearchResultProductInfoView>
                                             </SearchResultCell>
+
                                         </>
+
                                     )
                                 )
                             }
@@ -382,7 +445,23 @@ const FilterBtnText = styled.Text`
 `;
 
 const SearchResultCell = styled.TouchableOpacity`
-    
+    /* border: 1px; */
+    /* height: 35px; */
+    min-width: 85%;
+    margin: 3px 0 3px 0;
+    padding-left: 5px;
+    margin-top: 5px;
+    align-items: center;
+    border-radius: 12px;
+    flex-direction: row;
+    border: 1px;
+    height: 135px;
 `
+
+const SearchResultProductInfoView = styled.View`
+    position: relative;
+    top: -25px;
+    left: 7px;
+`;
 
 export default SearchPage; 
