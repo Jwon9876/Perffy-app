@@ -23,16 +23,22 @@ import OnBoardingFirstPage from './pages/OnBoarding/OnBoardingFirstPage';
 import OnBoardingSecondPage from './pages/OnBoarding/OnBoardingSecondPage';
 
 import Home from './pages/Home';
-import ReviewWritingPage from './pages/review/ReviewWritingPage';
+
+import ReviewWritingPage from './pages/Review/ReviewWritingPage';
+
 import SearchPage from './pages/SearchPage';
+import ProductPage from './pages/ProductPage'
 
 
 import Search from './pages/Search';
-import Setting from './pages/Setting'
 
-import Review from './pages/review/Review';
-import ReviewDetail from './pages/review/ReviewDetail';
-import CreateReview from './pages/review/CreateReview';
+import Setting from './pages/Settings/Setting'
+import EditInterest from './pages/Settings/EditInterest'
+import EditProfile from './pages/Settings/EditProfile'
+
+import Review from './pages/Review/Review';
+import ReviewDetail from './pages/Review/ReviewDetail';
+import CreateReview from './pages/Review/CreateReview';
 
 import HomeIcon from '../src/components/icons/HomeIcon.png';
 import EditReviewIcon from '../src/components/icons/EditReviewIcon.png';
@@ -103,7 +109,7 @@ function BottomTabBar() {
                     headerShown: false
                 }}
             />
-            <Tab.Screen name="마이 퍼피" component={Setting}
+            <Tab.Screen name="마이 퍼피" component={SettingStack}
                 options={{
                     title: '마이 퍼피',
                     tabBarIcon: () => (
@@ -130,6 +136,7 @@ const OnBoardingStack = () => {
     );
 };
 
+
 const HomeStack = ({ navigation, route }) => {
     const Stack = createNativeStackNavigator();
     return (
@@ -140,6 +147,22 @@ const HomeStack = ({ navigation, route }) => {
         >
             <Stack.Screen name={'Home'} component={Home} />
             <Stack.Screen name={'SearchPage'} component={SearchPage}/>
+            <Stack.Screen name={'ProductPage'} component={ProductPage}/>
+        </Stack.Navigator>
+    );
+};
+
+const SettingStack = ({ navigation, route }) => {
+    const Stack = createNativeStackNavigator();
+    return (
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+            }}
+        >
+            <Stack.Screen name={'Setting'} component={Setting} />
+            <Stack.Screen name={'EditInterest'} component={EditInterest}/>
+            <Stack.Screen name={'EditProfile'} component={EditProfile}/>
         </Stack.Navigator>
     );
 };
