@@ -111,7 +111,8 @@ function OnBoardingSecondPage({ navigation, route }) {
                 sex: sex,
                 userNickname: nickname,
                 interest: selectedTagList,
-                id: id,
+                // TODO {kakao}+id {naver}+id
+                id: `kakao${id}`,
                 logInType: clickedLogInType,
             })
             .then(() => {
