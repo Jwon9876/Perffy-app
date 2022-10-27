@@ -8,8 +8,12 @@ import FavoriteFalse from '../components/icons/FavoriteFalse.svg';
 import FavoriteTrue from '../components/icons/FavoriteTrue.svg';
 
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 import { useRecoilValue } from "recoil";
 import { userNickname } from "../store/store";
+
+import { storeRefreshToken, getRefreshToken } from '../asyncStorage/AsyncStorage';
+
 
 
 function Home({ navigation, route }) {
@@ -17,6 +21,7 @@ function Home({ navigation, route }) {
     const windowWidth = Dimensions.get('window').width;
     const windowHeight = Dimensions.get('window').height;
 
+    const [imageUrl, setImageUrl] = useState();
     const [favoriteSelectedList, setFavoriteSelectedList] = useState([false, false, false])
 
     const [favoriteSelectedFirst, setFavoriteSelectedFirst] = useState(false);
@@ -34,11 +39,74 @@ function Home({ navigation, route }) {
 
     const zeroToTenArr = [...Array(10)].map((_, i) => i + 1);
 
+    const [refreshToken, setRefreshToken] = useState("")
+    const isExistRefreshToken = async () => {
+        var temp = await getRefreshToken()
+        setRefreshToken(temp)
+    }
+
+    const tempUrl = [
+        'test.jpeg',
+        'Gucci.jpeg',
+        'Jomalon.jpeg',
+    ]
+
+    const [imageUrlsList, setImageUrlsList] = useState([]);
+
+    // TODO : rename
+    const getSampleImage = async () => {
+        const imageRefs = await storage().ref('/Products').listAll();
+        const urls = await Promise.all(imageRefs.items.map((ref) => ref.getDownloadURL()));
+        console.log(urls)
+    }
+
+    // TODO : rename
+    const getSampleImage2 = async () => {
+        let temp = []
+        setImageUrlsList([])
+
+        // console.log(tempUrl)
+
+
+        for (let url of tempUrl) {
+            await storage().ref(`/Products/${url}`).getDownloadURL().then((url) => {
+                temp.push(url)
+            })
+        }
+        setImageUrlsList(temp)
+    }
+
+
     useEffect(() => {
-        console.log("route is ")
-        console.log(route)
+        // getSampleImage()
+        getSampleImage2()
+        
     }, [])
 
+
+
+    useEffect(() => {
+        console.log(storedUserNickname)
+    }, [])
+
+    useEffect(() => {
+        isExistRefreshToken()
+        console.log("refresh token is")
+        console.log(refreshToken)
+    }, [])
+
+    useEffect(() => {
+        storage()
+            // .ref('/Products/조 말론 피오니 앤 블러쉬 스웨이드 코롱(2).jpeg') //name in storage in firebase console
+            .ref('/Products/test.jpeg')
+            .getDownloadURL()
+            .then((url) => {
+                setImageUrl(url);
+            })
+            .catch((e) => console.log('Errors while downloading => ', e));
+
+        // console.log(imageUrl)
+    }, [])
 
     return (
         <SafeAreaView>
@@ -81,9 +149,12 @@ function Home({ navigation, route }) {
 
                         <RecommendedPerfume>
 
-                            <PerfumeImg>
-
-                            </PerfumeImg>
+                            {/* <PerfumeImg> */}
+                            <Image
+                                style={{ width: 68, height: 68, borderRadius: 5 }}
+                                source={{ uri: imageUrlsList[0] }}
+                            />
+                            {/* </PerfumeImg> */}
                             <PerfumeInfoView
                             // TODO
                             >
@@ -108,9 +179,12 @@ function Home({ navigation, route }) {
 
                         <RecommendedPerfume>
 
-                            <PerfumeImg>
-
-                            </PerfumeImg>
+                            {/* <PerfumeImg> */}
+                            <Image
+                                style={{ width: 68, height: 68, borderRadius: 5 }}
+                                source={{ uri: imageUrlsList[1] }}
+                            />
+                            {/* </PerfumeImg> */}
                             <PerfumeInfoView>
                                 <PerfumeTagText>
                                     레더
@@ -132,9 +206,12 @@ function Home({ navigation, route }) {
                         </RecommendedPerfume>
 
                         <RecommendedPerfume>
-                            <PerfumeImg>
-
-                            </PerfumeImg>
+                            {/* <PerfumeImg> */}
+                            <Image
+                                style={{ width: 68, height: 68, borderRadius: 5 }}
+                                source={{ uri: imageUrlsList[2] }}
+                            />
+                            {/* </PerfumeImg> */}
                             <PerfumeInfoView>
                                 <PerfumeTagText>
                                     그린

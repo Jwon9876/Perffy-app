@@ -4,10 +4,8 @@ import { Alert, Image, Text } from "react-native";
 
 import styled from "styled-components";
 
-import dayjs from "dayjs"
-
-import firestore from '@react-native-firebase/firestore';
-import storage from '@react-native-firebase/storage';
+import { WithLocalSvg } from "react-native-svg";
+import BackArrowIcon from '../../components/icons/BackArrowIcon.svg'
 
 import Woody from '../../components/icons/Woody.png'
 import Citrus from '../../components/icons/Citrus.png'
@@ -18,25 +16,14 @@ import Green from '../../components/icons/Green.png'
 import Aqua from '../../components/icons/Aqua.png'
 import Oriental from '../../components/icons/Oriental.png'
 
-import { useRecoilValue } from 'recoil';
-import { userId, logInType } from "../../store/store"
 
-
-function OnBoardingSecondPage({ navigation, route }) {
-
-    const sex = route.params.userInformation["sex"]
-    const age = route.params.userInformation["age"]
-    const nickname = route.params.userInformation["nickname"]
-    const userProfilePic = route.params.userInformation["userProfilePic"]
-    const id = useRecoilValue(userId)
-    const clickedLogInType = useRecoilValue(logInType)
-
+function EditInterest({ navigation }) {
 
     {/*
         관심 향수 선택할 때, 애초에 눈에 안보이는 border를 그어놓고,
         선택되면 색만 바뀌게 하기 =
     */}
-    
+
 
     const perfumeTag = ["우디", "시트러스", "머스크", "레더", "플로럴", "그린", "아쿠아", "오리엔탈"];
     const perfumeTagImage = [Woody, Citrus, Musk, Leather, Floral, Green, Aqua, Oriental]
@@ -103,30 +90,25 @@ function OnBoardingSecondPage({ navigation, route }) {
         setSelectedTagList([...selectedTagList, tag])
     }
 
-    async function submitUserInfo() {
-        await firestore().collection('Users')
-            .doc()
-            .set({
-                age: age,
-                sex: sex,
-                userNickname: nickname,
-                interest: selectedTagList,
-                // TODO {kakao}+id {naver}+id
-                id: `kakao${id}`,
-                logInType: clickedLogInType,
-            })
-            .then(() => {
-                console.log('Review registered!');
+    // async function submitUserInfo() {
+    //     await firestore().collection('Users')
+    //         .doc()
+    //         .set({
+    //             age: age,
+    //             sex: sex,
+    //             userNickname: nickname,
+    //             interest: selectedTagList,
+    //             // TODO {kakao}+id {naver}+ida
+    //             id: `kakao${id}`,
+    //             logInType: clickedLogInType,
+    //         })
+    //         .then(() => {
+    //             console.log('Review registered!');
 
-                navigation.replace('BottomTabBar')
-            });
-    }
+    //             navigation.replace('BottomTabBar')
+    //         });
+    // }
 
-    async function uploadUserProfilePic(){
-        const reference = storage().ref('black-t-shirt-sm.png');
-        const pathToFile = `${utils.FilePath.PICTURES_DIRECTORY}/black-t-shirt-sm.png`;
-        await reference.putFile(pathToFile);
-    }
 
     function validationCheck() {
         if (selectedTagList.length < 3) {
@@ -142,18 +124,39 @@ function OnBoardingSecondPage({ navigation, route }) {
     return (
 
         <SafeAreaView>
+
+
+            <HeaderView>
+                <BackArrowBtn
+                    onPress={() => navigation.goBack()}
+                >
+                    <WithLocalSvg
+                        width={24}
+                        height={24}
+                        asset={BackArrowIcon}
+                    />
+                </BackArrowBtn>
+
+                <HeaderText>
+                    관심 향기 설정
+                </HeaderText>
+
+                <BackArrowBtn
+                    style = {{width: 24, height: 24}}
+                    disabled = {true}
+                    onPress={() => navigation.goBack()}
+                >
+                </BackArrowBtn>
+            </HeaderView>
             <ScrollView>
-                <PhaseView>
-                    <PhasePoint />
-                    <PhaseRectangle />
-                </PhaseView>
+
 
                 <TitleText>
                     관심 향수를 선택해주세요
                 </TitleText>
 
                 <DescriptionText
-                    style={{ fontSize: 12, marginTop: 30 }}
+                    style={{ fontSize: 12, marginTop: 20 }}
                 >
                     * 3가지 이상 선택해주세요
                 </DescriptionText>
@@ -176,7 +179,7 @@ function OnBoardingSecondPage({ navigation, route }) {
                                 >
 
                                     <Image
-                                        style={{width: 100, height: 100 }}
+                                        style={{ width: 100, height: 100 }}
                                         source={perfumeTagImage[i]}
                                     />
                                 </PerfumeTag>
@@ -208,8 +211,6 @@ function OnBoardingSecondPage({ navigation, route }) {
                                     {perfumeTagDescription[i]}
                                 </DescriptionText>
                             </PerfumeTagInnerView>
-
-
                         )
                     }
 
@@ -218,18 +219,18 @@ function OnBoardingSecondPage({ navigation, route }) {
             <FooterView
             >
                 <PreviousBtn
-                    onPress={() => navigation.goBack()}
+                    onPress={() => setSelectedTagList([])}
                 >
                     <PreviousBtnText>
-                        이전으로
+                        재 설정
                     </PreviousBtnText>
                 </PreviousBtn>
 
                 <NextBtn
-                    onPress={() => validationCheck()}
+                    onPress={() => console.log("TODO")}
                 >
                     <NextBtnText>
-                        다음 단계
+                        관심 향기 변경하기
                     </NextBtnText>
                 </NextBtn>
             </FooterView>
@@ -247,10 +248,26 @@ const ScrollView = styled.ScrollView`
     background-color: #FFFFFF;
 `;
 
-const TitleText = styled.Text`
-    font-size: 20px;
+const HeaderView = styled.View`
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px 0 20px;
+`;
+
+const HeaderText = styled.Text`
+    font-size: 16px;
     font-weight: bold;
+`;
+
+const BackArrowBtn = styled.TouchableOpacity`
+`;
+
+const TitleText = styled.Text`
+    font-size: 14px;
+    font-weight: 500;
     margin-left: 16px;
+    margin-top: 25px;
 `;
 
 const DescriptionText = styled.Text`
@@ -260,30 +277,6 @@ const DescriptionText = styled.Text`
     margin-top: 1px;
     color: #9E9E9E;
 `;
-
-const PhaseView = styled.View`
-    width: 100%;
-    height: 40px;
-    flex-direction: row;
-    margin-top: 40px;
-    padding-left: 16px;
-`
-
-const PhaseRectangle = styled.View`
-    width: 20px;
-    height: 7px;
-    background-color: #3D969C;
-    margin-right: 5px;
-    border-radius: 3.5px;
-`
-
-const PhasePoint = styled.View`
-    width: 7px;
-    height: 7px;
-    background-color: #D9D9D9;
-    margin-right: 5px;
-    border-radius: 3.5px;
-`
 
 const FooterView = styled.View`
     flex-direction: row;
@@ -352,4 +345,4 @@ const PerfumeTag = styled.TouchableOpacity`
     margin-left: 5px;
 `;
 
-export default OnBoardingSecondPage;
+export default EditInterest;

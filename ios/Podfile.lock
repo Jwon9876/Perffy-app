@@ -1097,6 +1097,8 @@ PODS:
     - KakaoSDK (= 2.5.0)
     - React
     - React-Core
+  - RNCAsyncStorage (1.17.10):
+    - React-Core
   - RNFBApp (14.9.1):
     - Firebase/CoreOnly (= 8.15.0)
     - React-Core
@@ -1200,6 +1202,7 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNAKakaoSDK (from `../node_modules/@actbase/react-kakaosdk`)"
+  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
@@ -1335,6 +1338,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNAKakaoSDK:
     :path: "../node_modules/@actbase/react-kakaosdk"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBAuth:
@@ -1434,6 +1439,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: b960b687d2dfef0d3761fbb187e01812ebab8b23
   ReactCommon: 095366164a276d91ea704ce53cb03825c487a3f2
   RNAKakaoSDK: 1a28a28f40940de4890858a4ea6b1c578c457e39
+  RNCAsyncStorage: 0c357f3156fcb16c8589ede67cc036330b6698ca
   RNFBApp: fd23737680ed2bdde41ca27d8bfb171b6d668c6b
   RNFBAuth: 4cfeb48367f81b135aced4bb9800df5488bc9660
   RNFBFirestore: 1f23c9c31cfa96d532a33255d89feb70b1052465

@@ -15,21 +15,30 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import SplashPage from './pages/SplashPage';
+
 import Login from './pages/Login'
 
 import OnBoardingFirstPage from './pages/OnBoarding/OnBoardingFirstPage';
 import OnBoardingSecondPage from './pages/OnBoarding/OnBoardingSecondPage';
 
 import Home from './pages/Home';
+
+import ReviewWritingPage from './pages/Review/ReviewWritingPage';
+
 import SearchPage from './pages/SearchPage';
+import ProductPage from './pages/ProductPage'
 
 
 import Search from './pages/Search';
-import Setting from './pages/Setting'
 
-import Review from './pages/review/Review';
-import ReviewDetail from './pages/review/ReviewDetail';
-import CreateReview from './pages/review/CreateReview';
+import Setting from './pages/Settings/Setting'
+import EditInterest from './pages/Settings/EditInterest'
+import EditProfile from './pages/Settings/EditProfile'
+
+import Review from './pages/Review/Review';
+import ReviewDetail from './pages/Review/ReviewDetail';
+import CreateReview from './pages/Review/CreateReview';
 
 import HomeIcon from '../src/components/icons/HomeIcon.png';
 import EditReviewIcon from '../src/components/icons/EditReviewIcon.png';
@@ -73,7 +82,9 @@ function BottomTabBar() {
                     tabBarStyle: ((route) => {
                         const routeName = getFocusedRouteNameFromRoute(route) ?? ""
                         if (routeName === 'SearchPage') {
-                            return { display: "none" }
+                            return { 
+                                display: "none"
+                                }
                         }
                         return {
                             display: 'flex',
@@ -86,16 +97,19 @@ function BottomTabBar() {
 
             {/* TODO */}
             {/* 리뷰쓰기 */}
-            <Tab.Screen name="리뷰 쓰기" component={Search}
+            <Tab.Screen name="리뷰 쓰기" component={ReviewWritingPage}
                 options={{
                     title: '리뷰 쓰기',
                     tabBarIcon: () => (
                         (<Image source={EditReviewIcon} style={{width: 20, height: 20}} />)
                     ),
+                    tabBarStyle: {
+                        // display: "none"
+                    },
                     headerShown: false
                 }}
             />
-            <Tab.Screen name="마이 퍼피" component={Setting}
+            <Tab.Screen name="마이 퍼피" component={SettingStack}
                 options={{
                     title: '마이 퍼피',
                     tabBarIcon: () => (
@@ -122,6 +136,7 @@ const OnBoardingStack = () => {
     );
 };
 
+
 const HomeStack = ({ navigation, route }) => {
     const Stack = createNativeStackNavigator();
     return (
@@ -132,6 +147,22 @@ const HomeStack = ({ navigation, route }) => {
         >
             <Stack.Screen name={'Home'} component={Home} />
             <Stack.Screen name={'SearchPage'} component={SearchPage}/>
+            <Stack.Screen name={'ProductPage'} component={ProductPage}/>
+        </Stack.Navigator>
+    );
+};
+
+const SettingStack = ({ navigation, route }) => {
+    const Stack = createNativeStackNavigator();
+    return (
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+            }}
+        >
+            <Stack.Screen name={'Setting'} component={Setting} />
+            <Stack.Screen name={'EditInterest'} component={EditInterest}/>
+            <Stack.Screen name={'EditProfile'} component={EditProfile}/>
         </Stack.Navigator>
     );
 };
@@ -145,6 +176,7 @@ export default function App() {
         <RecoilRoot>
             <NavigationContainer>
                 <Stack.Navigator>
+                    <Stack.Screen name="SplashPage" component={SplashPage} options={{ headerShown: false }} />
                     <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
                     <Stack.Screen name="OnBoarding" component={OnBoardingStack} options = {{headerShown: false}}/>
                     <Stack.Screen name="BottomTabBar" component={BottomTabBar} options={{ headerShown: false }} />
