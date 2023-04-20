@@ -1,4 +1,4 @@
-# Perffy-app
+# Perffy-app[Deprecated Project]
 
 ## Homebrew 설치
 
